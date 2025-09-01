@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Prompts - STEAM & IA</title>
+<meta content="Guia completo de prompts para uso de IA na oficina STEAM." name="description"/>
+<style>
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F9F9F9;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --blue-dark: #002D57;
+      --purple-accent: #6F2E91;
+      --blue-light: #1C75BC;
+      --border-light: #E0E0E0;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --success-color: #28A745;
+      --warning-color: #FFC107;
+      --info-color: #17A2B8;
+      --radius: 12px;
+      --transition: all 0.3s ease-in-out;
+      --code-bg: #0b1220;
+      --code-color: #dfe7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    
+    .skip-link:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      padding: 0.5rem;
+      background: var(--blue-dark);
+      color: white;
+      z-index: 9999;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-primary);
+      border-bottom: 2px solid var(--border-light);
+      box-shadow: 0 2px 8px var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-dark), var(--purple-accent));
+      box-shadow: 0 4px 6px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .brand h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin: 0;
+    }
+
+    .accessibility-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background: white;
+      border-color: var(--blue-light);
+      box-shadow: 0 2px 4px var(--shadow-light);
+    }
+
+    .btn.primary {
+      background: var(--blue-dark);
+      color: white;
+      border-color: var(--blue-dark);
+    }
+
+    .btn.primary:hover {
+      background: var(--purple-accent);
+      border-color: var(--purple-accent);
+    }
+
+    .btn.success {
+      background: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+    }
+
+    .btn.success:hover {
+      background: #218838;
+      border-color: #218838;
+    }
+
+    /* Navigation */
+    .nav-links {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      background: var(--bg-secondary);
+      color: var(--blue-dark);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: 1px solid var(--border-light);
+    }
+
+    .nav-links a:hover {
+      background: var(--blue-light);
+      color: white;
+      box-shadow: 0 4px 6px var(--shadow-light);
+    }
+
+    .nav-links a.active {
+      background: var(--purple-accent);
+      color: white;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid var(--purple-accent);
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .intro-text {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--blue-light);
+    }
+
+    /* Grid System */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      .grid.cols-2, .grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px var(--shadow-light);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px var(--shadow-light);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--blue-dark);
+    }
+
+    .card.highlight {
+      border-left: 4px solid var(--purple-accent);
+    }
+
+    .card.info {
+      border-left: 4px solid var(--blue-light);
+      background: var(--bg-secondary);
+    }
+
+    .card.success {
+      border-left: 4px solid var(--success-color);
+    }
+
+    .card.warning {
+      border-left: 4px solid var(--warning-color);
+      background: #FFF9E6;
+    }
+
+    /* Code Snippets */
+    .snippet {
+      width: 100%;
+      min-height: 120px;
+      background: var(--code-bg);
+      color: var(--code-color);
+      border: none;
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-family: 'Courier New', Consolas, 'Liberation Mono', Monaco, monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical;
+      overflow-y: auto;
+    }
+
+    .snippet:focus {
+      outline: 3px solid var(--blue-light);
+      outline-offset: 2px;
+    }
+
+    /* Copy Button */
+    .copy-container {
+      position: relative;
+      margin: 1rem 0;
+    }
+
+    .copy-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 14px;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .copy-btn:hover {
+      background: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+    }
+
+    .copy-btn[aria-busy="true"] {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* Details/Summary */
+    details {
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--blue-dark);
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    summary:hover {
+      background: var(--blue-light);
+      color: white;
+    }
+
+    details[open] summary {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: none;
+    }
+
+    details[open] > div {
+      padding: 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-top: none;
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+    }
+
+    /* Tips and Badges */
+    .tip-badge {
+      display: inline-block;
+      background: var(--success-color);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    /* List Styles */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .checklist li::before {
+      content: "✅";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* Utility Classes */
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-secondary); }
+    .mb-2 { margin-bottom: 2rem; }
+    .mt-2 { margin-top: 2rem; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .brand h1 {
+        font-size: 1.5rem;
+      }
+      
+      .nav-links {
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      header .accessibility-controls,
+      .nav-links,
+      .copy-btn {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+      }
+      
+      .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      
+      .snippet {
+        background: #f5f5f5;
+        color: #333;
+        border: 1px solid #ccc;
+      }
+    }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<header>
+<div class="header-content">
+<div class="brand">
+<div class="logo">🤖</div>
+<div>
+<h1>Prompts - STEAM & IA</h1>
+</div>
+</div>
+<div class="accessibility-controls">
+<button aria-label="Diminuir tamanho da fonte" class="btn" id="btn-font--" title="Diminuir fonte">A−</button>
+<button aria-label="Aumentar tamanho da fonte" class="btn" id="btn-font++" title="Aumentar fonte">A+</button>
+<button aria-label="Ativar alto contraste" aria-pressed="false" class="btn" id="btn-contraste" title="Alto contraste">Alto contraste</button>
+<button aria-label="Imprimir página" class="btn" onclick="window.print()" title="Imprimir">Imprimir</button>
+</div>
+</div>
+<div class="nav-links">
+<a href="index.html">🏠 Proposta Geral</a>
+<a href="apoio.html">📚 Material de Apoio</a>
+<a href="dicas.html">💡 Dicas & Materiais</a>
+<a href="prompts.html" class="active">🤖 Prompts</a>
+</div>
+</header>
+
+<main class="container" id="conteudo" tabindex="-1">
+
+<div class="card highlight">
+<h1>🤖 Guia de Prompts para IA na Oficina</h1>
+<p class="text-muted">Funciona em ChatGPT, Gemini, Claude e similares. Use sempre em perspectiva investigativa, com checagem de fontes e registro de suposições.</p>
+</div>
+
+<div class="card info">
+<h2>🤔 1) Antes de perguntar, pense</h2>
+<ul>
+<li><strong>Contexto:</strong> onde você está, qual ODS, para quem, com quais recursos</li>
+<li><strong>Objetivo:</strong> o que você precisa que a IA faça agora</li>
+<li><strong>Papel da IA:</strong> idear, organizar, simular, criticar, revisar, prototipar</li>
+<li><strong>Produto:</strong> formato de saída esperado</li>
+<li><strong>Critérios:</strong> como você vai julgar se a resposta serve</li>
+<li><strong>Limites:</strong> o que a IA <em>não</em> pode inventar; o que precisa de fonte checada</li>
+<li><strong>Fontes:</strong> onde você vai conferir conteúdo factual (para artigos, use SciSpace)</li>
+</ul>
+<div class="tip-badge">💡 dica</div>
+<span>Peça para a IA fazer <em>perguntas a você</em> antes de responder. Isso ajuda a alinhar o caminho.</span>
+</div>
+
+<div class="card">
+<h2>📝 2) Modelo curto de prompt (copie e preencha)</h2>
+<div class="copy-container">
+<textarea class="snippet" readonly>aja como [papel da IA]. contexto: estamos no ODS [nº e tema], recursos [lista], tempo [x min], público [quem]. objetivo: [tarefa]. restrições: [linguagem simples, até n palavras, citar suposições]. saída: [tabela/roteiro/lista]. critérios: [clareza, viabilidade, impacto]. primeiro, faça 3 perguntas para entender melhor; só depois responda.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar modelo</button>
+</div>
+</div>
+
+<div class="grid cols-2">
+<div class="card">
+<h2>⚙️ 3) Prompts por etapa da oficina</h2>
+
+<h3>🔍 Entender o conteúdo sem IA</h3>
+<div class="copy-container">
+<textarea class="snippet" readonly>liste 5 conceitos essenciais sobre [tema do ODS] que eu devo verificar em sites confiáveis. proponha termos de busca e critérios de qualidade. não escreva o conteúdo, apenas a rota de estudo.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<h3>🎯 Estratégia de IA e boas perguntas</h3>
+<div class="copy-container">
+<textarea class="snippet" readonly>dado este problema [descreva], proponha 3 estratégias diferentes de uso de IA: ideação, simulação, organização de dados. para cada uma, escreva 1 prompt inicial e 1 prompt de refinamento.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<h3>🔧 Produção e iteração</h3>
+<div class="copy-container">
+<textarea class="snippet" readonly>gere um rascunho de [artefato] para [público], alinhado ao ODS [nº]. liste 3 suposições que você precisou fazer. ao final, sugira 2 maneiras de tornar o rascunho mais inclusivo e acessível. indique também quais elementos eu devo completar com dados próprios.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<h3>✅ Validação rápida</h3>
+<div class="copy-container">
+<textarea class="snippet" readonly>atuar como revisor crítico. avalie meu rascunho segundo 5 critérios: precisão, evidências, linguagem, viabilidade, impacto. explique como melhorar cada item em 1 frase.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<h3>🎤 Apresentação em 5 minutos</h3>
+<div class="copy-container">
+<textarea class="snippet" readonly>resuma o projeto em tópicos no formato elevator pitch: problema; solução com IA; o que só foi possível com IA; aprendizagens sobre o uso da IA; evidências; próximos passos. insira [preencher] sempre que faltar informação e solicite mais dados para que a síntese fique fiel à minha realidade e visão. não invente nada que eu não tenha fornecido. limite a 120 segundos.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+
+<div class="card">
+<h2>🎭 4) Exemplos diversos</h2>
+
+<details>
+<summary>📢 Mensagens para público específico</summary>
+<div>
+<div class="copy-container">
+<textarea class="snippet" readonly>dê sugestões para que minha mensagem (para [público-alvo] sobre [tema]) tenha tom acolhedor e linguagem simples. escreva as sugestões fora do meu texto e fundamente para eu decidir a melhor versão. não inclua termos exagerados ou fora do que forneci. [cole o conteúdo aqui]</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+</details>
+
+<details>
+<summary>📚 Micro-percursos de estudo</summary>
+<div>
+<div class="copy-container">
+<textarea class="snippet" readonly>adapte as ideias a seguir e proponha 2 micro-percursos de 20 min para colegas com estilos diferentes: visual e auditivo. para cada um, gere checklist de acessibilidade. considere que [critérios]. conteúdo: [colar aqui]</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+</details>
+
+<details>
+<summary>⚖️ Vieses e reescrita</summary>
+<div>
+<div class="copy-container">
+<textarea class="snippet" readonly>analise este texto [colar] e aponte estereótipos ou vieses. reescreva apenas o necessário para removê-los, preservando a ideia central. explique o que alterou e por quê. use como critério: [cole os critérios].</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+</details>
+
+<details>
+<summary>🔍 Análise de problema complexo</summary>
+<div>
+<div class="copy-container">
+<textarea class="snippet" readonly>com base nestes dados simples [liste], identifique 3 principais causas do problema relacionado ao ODS [número]. Para cada causa, sugira uma abordagem de intervenção e explique como medir impacto.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+</details>
+
+<details>
+<summary>🛠️ Prototipagem criativa</summary>
+<div>
+<div class="copy-container">
+<textarea class="snippet" readonly>proponha 3 formatos diferentes de protótipo para demonstrar nossa solução: um físico, um digital e um híbrido. Para cada um, liste materiais necessários, tempo de execução e potencial de impacto.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+</details>
+
+<details>
+<summary>🎯 Roteiro de apresentação</summary>
+<div>
+<div class="copy-container">
+<textarea class="snippet" readonly>crie um roteiro de apresentação de 5 minutos que combine narrativa envolvente com dados objetivos. inclua: gancho inicial, contextualização do problema, nossa proposta, diferenciais da solução, e chamada para ação. [forneça os dados da sua solução]</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+</details>
+</div>
+</div>
+
+<div class="grid cols-2">
+<div class="card warning">
+<h2>❌ 5) Evite estes erros e use assim</h2>
+<ul>
+<li><strong>❌ Pedir conteúdo factual pronto</strong> → ✅ <em>peça rota de busca</em>, termos e critérios; depois traga dados para organizar</li>
+<li><strong>❌ Aceitar a primeira resposta</strong> → ✅ <em>solicite 3 alternativas</em>, compare prós e contras e proponha um híbrido</li>
+<li><strong>❌ Prompt vago</strong> → ✅ <em>use o molde</em> com contexto, objetivo, restrições, saída e critérios</li>
+<li><strong>❌ Referências inventadas</strong> → ✅ <em>não gere referências</em>; peça apenas <em>onde</em> buscar; você traz os links e a IA organiza</li>
+<li><strong>❌ Dados sensíveis</strong> → ✅ <em>anonimizar exemplos</em> e usar valores fictícios quando necessário</li>
+</ul>
+</div>
+
+<div class="card success">
+<h2>🔄 6) Técnicas de refinamento</h2>
+<ul>
+<li><strong>Auto-crítica guiada:</strong> liste 5 limitações da resposta e melhore duas</li>
+<li><strong>Raciocínio passo a passo:</strong> explique o processo em etapas curtas e verificáveis</li>
+<li><strong>Contra-exemplos:</strong> proponha um cenário onde a solução falha e como mitigar</li>
+<li><strong>Comparação A/B:</strong> compare duas saídas pelo critério de impacto e justificativa</li>
+</ul>
+</div>
+</div>
+
+<div class="card highlight">
+<h2>✅ 7) Checklist do seu prompt</h2>
+<ul class="checklist">
+<li>Contexto claro</li>
+<li>Objetivo concreto</li>
+<li>Papel da IA</li>
+<li>Formato de saída</li>
+<li>Critérios de avaliação</li>
+<li>Limites e fontes</li>
+<li>Pedido de perguntas antes da resposta</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>🚀 8) Mini-templates prontos</h2>
+
+<div class="copy-container">
+<textarea class="snippet" readonly>gere 3 hipóteses para [problema do ODS] e 2 perguntas de verificação por hipótese.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<div class="copy-container">
+<textarea class="snippet" readonly>crie um plano mínimo viável em 3 passos com custo, tempo e materiais.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<div class="copy-container">
+<textarea class="snippet" readonly>proponha métricas simples para medir impacto em 30 dias.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+
+<div class="copy-container">
+<textarea class="snippet" readonly>reescreva para linguagem inclusiva e acessível, mantendo o sentido.</textarea>
+<button class="copy-btn" onclick="copyToClipboard(this.previousElementSibling)">📋 Copiar</button>
+</div>
+</div>
+
+<div class="card info">
+<h2>⚖️ 9) Boas práticas de IA (uso responsável)</h2>
+<ul>
+<li><strong>Transparência:</strong> Marcar claramente o que foi gerado por IA (<em>autoria</em> e <em>origem</em> dos dados)</li>
+<li><strong>Validação:</strong> Checar e validar informações comparando com fontes confiáveis e experimentos práticos</li>
+<li><strong>Privacidade:</strong> Evitar inserir <strong>dados pessoais/sensíveis</strong> nos prompts</li>
+<li><strong>Equilíbrio:</strong> Evitar <strong>dependência excessiva</strong> - preservar síntese, crítica e autoria humana</li>
+<li><strong>Verificação:</strong> Preferir fontes verificáveis; atenção a <em>referências falsas ou incompletas</em></li>
+<li><strong>Inclusão:</strong> Considerar diferentes perspectivas e evitar perpetuar vieses</li>
+<li><strong>Ética:</strong> Usar IA para amplificar capacidades humanas, não substituí-las completamente</li>
+</ul>
+</div>
+
+</main>
+
+<footer style="margin-top: 2rem; padding: 2rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-light); color: var(--text-secondary); text-align: center;">
+<div style="max-width: 1200px; margin: 0 auto;">
+<p><strong>STEAM & IA: Criatividade, Autoria e Responsabilidade</strong> — Ministrante: Mary Grace Andrioli (IFSP)</p>
+<div class="nav-links" style="justify-content: center; padding-top: 1rem;">
+<a href="dicas.html">💡 Anterior: Dicas & Materiais</a>
+<a href="index.html">🏠 Voltar ao Início</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Acessibilidade: Alto contraste e tamanho da fonte
+const btnHC = document.getElementById('btn-contraste');
+const btnFontMinus = document.getElementById('btn-font--');
+const btnFontPlus = document.getElementById('btn-font++');
+
+function applyPrefs(){
+  const hc = localStorage.getItem('hc')==='1';
+  document.body.style.filter = hc ? 'invert(1) hue-rotate(180deg)' : '';
+  if(btnHC) btnHC.setAttribute('aria-pressed', String(hc));
+  const fs = localStorage.getItem('fs') || '16';
+  document.documentElement.style.fontSize = fs + 'px';
+}
+applyPrefs();
+
+if(btnHC) {
+  btnHC.addEventListener('click', ()=>{
+    const on = !(localStorage.getItem('hc')==='1');
+    localStorage.setItem('hc', on?'1':'0');
+    applyPrefs();
+  });
+}
+
+function changeFont(delta){
+  const cur = parseInt(localStorage.getItem('fs')||'16',10);
+  const next = Math.max(12, Math.min(24, cur + delta));
+  localStorage.setItem('fs', next);
+  applyPrefs();
+}
+if(btnFontMinus) btnFontMinus.addEventListener('click', ()=>changeFont(-2));
+if(btnFontPlus) btnFontPlus.addEventListener('click', ()=>changeFont(+2));
+
+// Copy to clipboard function
+function copyToClipboard(textarea) {
+  const button = textarea.nextElementSibling;
+  if (!button) return;
+  
+  button.setAttribute('aria-busy', 'true');
+  textarea.select();
+  textarea.setSelectionRange(0, 99999); // For mobile devices
+  
+  try {
+    document.execCommand('copy');
+    const originalText = button.textContent;
+    button.textContent = '✅ Copiado!';
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.removeAttribute('aria-busy');
+    }, 2000);
+  } catch (err) {
+    console.warn('Copy failed:', err);
+    button.textContent = '❌ Erro ao copiar';
+    setTimeout(() => {
+      button.textContent = '📋 Copiar';
+      button.removeAttribute('aria-busy');
+    }, 2000);
+  }
+}
+</script>
+</body>
+</html>

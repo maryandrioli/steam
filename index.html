@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>STEAM & IA — Criatividade, Autoria e Responsabilidade</title>
+<meta content="Oficina para professores e gestores experienciarem o uso crítico, criativo e investigativo da IA em contextos STEAM." name="description"/>
+<style>
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F9F9F9;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --blue-dark: #002D57;
+      --purple-accent: #6F2E91;
+      --blue-light: #1C75BC;
+      --border-light: #E0E0E0;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --success-color: #28A745;
+      --warning-color: #FFC107;
+      --info-color: #17A2B8;
+      --radius: 12px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    
+    .skip-link:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      padding: 0.5rem;
+      background: var(--blue-dark);
+      color: white;
+      z-index: 9999;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-primary);
+      border-bottom: 2px solid var(--border-light);
+      box-shadow: 0 2px 8px var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-dark), var(--purple-accent));
+      box-shadow: 0 4px 6px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .brand h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin: 0;
+    }
+
+    .accessibility-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background: white;
+      border-color: var(--blue-light);
+      box-shadow: 0 2px 4px var(--shadow-light);
+    }
+
+    .btn.primary {
+      background: var(--blue-dark);
+      color: white;
+      border-color: var(--blue-dark);
+    }
+
+    .btn.primary:hover {
+      background: var(--purple-accent);
+      border-color: var(--purple-accent);
+    }
+
+    /* Navigation */
+    .nav-links {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      background: var(--bg-secondary);
+      color: var(--blue-dark);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: 1px solid var(--border-light);
+    }
+
+    .nav-links a:hover {
+      background: var(--blue-light);
+      color: white;
+      box-shadow: 0 4px 6px var(--shadow-light);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid var(--purple-accent);
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .intro-text {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--blue-light);
+    }
+
+    /* Grid System */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      .grid.cols-2, .grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px var(--shadow-light);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px var(--shadow-light);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--blue-dark);
+    }
+
+    .card.highlight {
+      border-left: 4px solid var(--purple-accent);
+    }
+
+    .card.info {
+      border-left: 4px solid var(--blue-light);
+      background: var(--bg-secondary);
+    }
+
+    /* Timeline */
+    .timeline {
+      border-left: 3px solid var(--blue-light);
+      padding-left: 1.5rem;
+      margin-left: 1rem;
+    }
+
+    .timeline-item {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.75rem;
+      top: 0.5rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--blue-light);
+    }
+
+    .timeline-item strong {
+      color: var(--blue-dark);
+    }
+
+    /* Tags and Pills */
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 1px solid var(--border-light);
+    }
+
+    .tag.primary {
+      background: var(--blue-light);
+      color: white;
+      border-color: var(--blue-light);
+    }
+
+    /* Post-it Style */
+    .post-it {
+      background: #FFF9C4;
+      border: 1px solid #F7DC6F;
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: 2px 2px 4px var(--shadow-light);
+      transform: rotate(-1deg);
+    }
+
+    .post-it h4 {
+      color: #8B7355;
+      margin-top: 0;
+    }
+
+    /* Etapas */
+    .etapa {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border-left: 4px solid var(--success-color);
+    }
+
+    .etapa h4 {
+      color: var(--success-color);
+      margin-top: 0;
+    }
+
+    /* ODS Cards */
+    .ods-card {
+      border-left: 4px solid var(--blue-dark);
+    }
+
+    .ods-card summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--blue-dark);
+      padding: 0.5rem 0;
+    }
+
+    .ods-card summary:hover {
+      color: var(--purple-accent);
+    }
+
+    .ods-card[open] {
+      background: var(--bg-secondary);
+    }
+
+    /* Utility Classes */
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-secondary); }
+    .mb-2 { margin-bottom: 2rem; }
+    .mt-2 { margin-top: 2rem; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .brand h1 {
+        font-size: 1.5rem;
+      }
+      
+      .nav-links {
+        justify-content: center;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      header .accessibility-controls,
+      .nav-links,
+      .post-it {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+      }
+      
+      .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<header>
+<div class="header-content">
+<div class="brand">
+<div class="logo">IA</div>
+<div>
+<h1>STEAM & IA — Criatividade, Autoria e Responsabilidade</h1>
+</div>
+</div>
+<div class="accessibility-controls">
+<button aria-label="Diminuir tamanho da fonte" class="btn" id="btn-font--" title="Diminuir fonte">A−</button>
+<button aria-label="Aumentar tamanho da fonte" class="btn" id="btn-font++" title="Aumentar fonte">A+</button>
+<button aria-label="Ativar alto contraste" aria-pressed="false" class="btn" id="btn-contraste" title="Alto contraste">Alto contraste</button>
+<button aria-label="Imprimir página" class="btn" onclick="window.print()" title="Imprimir">Imprimir</button>
+</div>
+</div>
+<div class="nav-links">
+<a href="apoio.html">📚 Material de Apoio</a>
+<a href="dicas.html">💡 Dicas & Materiais</a>
+<a href="prompts.html">🤖 Prompts</a>
+</div>
+</header>
+
+<main class="container" id="conteudo" tabindex="-1">
+<div class="intro-text">
+Você vai vivenciar, como estudante e como educador(a), o uso <strong>crítico, criativo e investigativo</strong> da Inteligência Artificial em desafios relacionados aos Objetivos de Desenvolvimento Sustentável (ODS). A cada etapa, vamos diferenciar <em>autoria humana</em> e <em>contribuições da IA</em>, validar referências e registrar de forma transparente.
+</div>
+
+<div class="grid cols-2">
+<div class="card highlight">
+<h3>🎯 Objetivos</h3>
+<ul>
+<li>Explorar IA como <strong>apoio</strong> à investigação, análise de dados, simulações e prototipagem.</li>
+<li>Praticar <strong>uso responsável</strong>: autoria, checagem, transparência, cuidados com dados sensíveis.</li>
+<li>Desenvolver <strong>soluções criativas</strong> que combinem pesquisa tradicional e recursos de IA.</li>
+<li>Planejar <strong>atividades replicáveis</strong> na sua instituição, com opções <em>online</em> e <em>desplugadas</em>.</li>
+</ul>
+<div class="tags">
+<span class="tag primary">Mão na massa</span>
+<span class="tag primary">Investigativa</span>
+<span class="tag primary">Interdisciplinar</span>
+<span class="tag primary">Ética & Autoria</span>
+</div>
+</div>
+
+<div class="card info">
+<h3>⏰ Agenda (2h)</h3>
+<div class="timeline">
+<div class="timeline-item"><strong>0—15 min</strong> • Abertura — <em>Uso Pedagógico da IA</em> (Mary Grace).</div>
+<div class="timeline-item"><strong>15—25 min</strong> • Formação de equipes (6 grupos) e seleção dos ODS.</div>
+<div class="timeline-item"><strong>25—80 min</strong> • Desenvolvimento do projeto por equipe: investigação + prototipagem.</div>
+<div class="timeline-item"><strong>80—110 min</strong> • Apresentações rápidas (<strong>5 min por equipe</strong>) com timer acessível.</div>
+<div class="timeline-item"><strong>110—120 min</strong> • Síntese, feedback e próximos passos.</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>🚀 Desafio por Equipe — Objetivos de Desenvolvimento Sustentável (ODS)</h3>
+<p>Formaremos <strong>6 equipes</strong>. Cada equipe deverá aprofundar conhecimentos sobre um dos temas do ODS que foi selecionado para seu grupo e construir uma proposta de intervenção na forma de protótipo, esquema, artefato, vídeo, quadrinhos, jogo digital, app, jogo de tabuleiro físico ou interativo, página web, simulação e/ou outra possibilidade criativa no uso da IA.</p>
+
+<div class="post-it">
+<h4>💡 Critério de Qualidade</h4>
+<p>O resultado das produções deve revelar algo que combine ideias e criatividade, uso criativo, ético e investigativo da IA. <strong>Não pode ser algo que seria rapidamente construído sem IA e nem algo que pudesse ser feito com a mesma qualidade totalmente por meio da IA.</strong></p>
+</div>
+
+<p>Combine estratégias de pesquisa com e sem IA, bem como entrevistas, diálogo interno com a equipe e outras abordagens. Ao longo das reflexões, registre nos post-it ideias sobre melhor uso da IA e também cuidados necessários que você notou com seu grupo.</p>
+</div>
+
+<h3>📋 Etapas comuns a todos os grupos</h3>
+
+<div class="etapa">
+<h4>1. Identificação do problema</h4>
+<p>Procure identificar com seu grupo qual maior problema que vocês percebem na área do ODS selecionado, a partir de sua experiência e/ou pesquise problemas sobre este tema na Internet.</p>
+<p><strong>Registre as ideias em post-its para facilitar o entendimento geral do grupo.</strong></p>
+</div>
+
+<div class="etapa">
+<h4>2. Análise do estado atual</h4>
+<p>Após identificar o problema, identifiquem o que tem sido feito e o que poderia ser feito com apoio das Tecnologias Digitais de Informação e Comunicação.</p>
+</div>
+
+<div class="etapa">
+<h4>3. Exploração e inspiração</h4>
+<p>Explorem os recursos e materiais da oficina, busquem inspirações por meio da própria IA, relatando também o perfil do grupo: <em>"Somos estudantes de… as disciplinas que estamos cursando ou que gostaríamos de valorizar nesse momento são [preencher as áreas de conhecimento], temos interesse em construir algo para [liste ideias iniciais do que você pretende]."</em></p>
+<p><strong>Consulte a seção de <a href="prompts.html">Prompts</a> para dicas detalhadas.</strong></p>
+</div>
+
+<div class="etapa">
+<h4>4. Desenvolvimento da solução</h4>
+<p>Criem uma proposta de intervenção que combine:</p>
+<ul>
+<li>Uso crítico e criativo da IA</li>
+<li>Um produto ou proposta na forma de simulação, artefato, aplicativo, protótipo, página web, avatar, jogo, plataforma interativa, etc.</li>
+<li>Métodos tradicionais de pesquisa</li>
+<li>Diálogo e reflexão em equipe</li>
+<li>Registro transparente de processos e fontes</li>
+</ul>
+</div>
+
+<div class="post-it">
+<h4>📝 Registro de Reflexões</h4>
+<p>Durante todo o processo, utilizem post-its para registrar:</p>
+<ul>
+<li><strong>Boas práticas:</strong> ideias sobre melhor uso da IA</li>
+<li><strong>Cuidados éticos:</strong> precauções necessárias observadas</li>
+<li><strong>Aprendizagens:</strong> insights sobre o processo</li>
+</ul>
+</div>
+
+<div class="grid cols-2">
+<div class="card">
+<h3>📊 Registro e Documentação</h3>
+<ul>
+<li>Cada equipe recebe materiais para <strong>registro visual</strong> (cartolinas, post-its, marcadores).</li>
+<li>Documente em cada etapa: <em>pergunta → busca → análise → síntese → prototipagem → validação</em>.</li>
+<li>Em cada fase, anote <strong>dicas de uso de IA</strong> e <strong>cuidados éticos</strong> observados.</li>
+<li>Mantenha registro transparente de todas as fontes utilizadas.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>✅ Boas Práticas de IA (uso responsável)</h3>
+<ul>
+<li>Marcar claramente o que foi gerado por IA (<em>autoria</em> e <em>origem</em> dos dados).</li>
+<li><strong>Checar e validar</strong> informações: comparar com fontes confiáveis e experimentos práticos.</li>
+<li>Evitar inserir <strong>dados pessoais/sensíveis</strong> nos prompts.</li>
+<li>Evitar <strong>dependência excessiva</strong>: preservar síntese, crítica e autoria humana.</li>
+<li>Preferir fontes verificáveis; atenção a <em>referências falsas ou incompletas</em>.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div class="card">
+<h3 id="ods-lista-title">🌍 Lista dos 17 Objetivos de Desenvolvimento Sustentável</h3>
+<p class="text-muted">Cada equipe selecionará um dos ODS abaixo para desenvolver sua proposta de intervenção. Clique para ver a descrição completa:</p>
+
+<div class="grid cols-3">
+<details class="card ods-card">
+<summary><strong>ODS 1: Erradicação da Pobreza</strong></summary>
+<p>Acabar com a pobreza em todas as suas formas, em todos os lugares. Inclui garantir que todas as pessoas tenham direitos iguais aos recursos econômicos, serviços básicos, propriedade e controle sobre a terra e outras formas de propriedade.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 2: Fome Zero e Agricultura Sustentável</strong></summary>
+<p>Acabar com a fome, alcançar a segurança alimentar e melhoria da nutrição e promover a agricultura sustentável. Envolve garantir o acesso de todas as pessoas a alimentos seguros, nutritivos e suficientes durante todo o ano.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 3: Saúde e Bem-Estar</strong></summary>
+<p>Assegurar uma vida saudável e promover o bem-estar para todas e todos, em todas as idades. Inclui reduzir a mortalidade materna e infantil, combater doenças transmissíveis e promover saúde mental e bem-estar.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 4: Educação de Qualidade</strong></summary>
+<p>Assegurar a educação inclusiva e equitativa e de qualidade, e promover oportunidades de aprendizagem ao longo da vida para todas e todos. Foca no acesso universal à educação e na melhoria da qualidade do ensino.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 5: Igualdade de Gênero</strong></summary>
+<p>Alcançar a igualdade de gênero e empoderar todas as mulheres e meninas. Inclui acabar com todas as formas de discriminação e violência contra mulheres e meninas, e garantir participação plena na vida política, econômica e pública.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 6: Água Potável e Saneamento</strong></summary>
+<p>Garantir disponibilidade e manejo sustentável da água e saneamento para todas e todos. Envolve acesso universal e equitativo à água potável e ao saneamento e higiene adequados para todos.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 7: Energia Limpa e Acessível</strong></summary>
+<p>Garantir acesso à energia barata, confiável, sustentável e renovável para todas e todos. Inclui aumentar substancialmente a participação de energia renovável na matriz energética global.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 8: Trabalho Decente e Crescimento Econômico</strong></summary>
+<p>Promover o crescimento econômico sustentado, inclusivo e sustentável, emprego pleno e produtivo e trabalho decente para todas e todos. Foca na criação de oportunidades de trabalho digno e no crescimento econômico que não prejudique o meio ambiente.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 9: Indústria, Inovação e Infraestrutura</strong></summary>
+<p>Construir infraestruturas resilientes, promover a industrialização inclusiva e sustentável e fomentar a inovação. Inclui desenvolver infraestrutura de qualidade, confiável, sustentável e resiliente para apoiar o desenvolvimento econômico e o bem-estar humano.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 10: Redução das Desigualdades</strong></summary>
+<p>Reduzir a desigualdade dentro dos países e entre eles. Envolve empoderar e promover a inclusão social, econômica e política de todos, independentemente da idade, sexo, deficiência, raça, etnia, origem, religião, status econômico ou outro.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 11: Cidades e Comunidades Sustentáveis</strong></summary>
+<p>Tornar as cidades e os assentamentos humanos inclusivos, seguros, resilientes e sustentáveis. Inclui garantir o acesso de todos à habitação segura, adequada e a preço acessível, e aos serviços básicos e urbanizar as favelas.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 12: Consumo e Produção Responsáveis</strong></summary>
+<p>Assegurar padrões de produção e de consumo sustentáveis. Envolve fazer mais e melhor com menos, aumentando os ganhos líquidos de bem-estar das atividades econômicas, mediante a redução da utilização dos recursos, degradação e poluição.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 13: Ação Contra a Mudança Global do Clima</strong></summary>
+<p>Tomar medidas urgentes para combater a mudança climática e seus impactos. Inclui fortalecer a resiliência e a capacidade de adaptação a riscos relacionados ao clima e às catástrofes naturais em todos os países.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 14: Vida na Água</strong></summary>
+<p>Conservação e uso sustentável dos oceanos, dos mares e dos recursos marinhos para o desenvolvimento sustentável. Envolve prevenir e reduzir significativamente a poluição marinha de todos os tipos, especialmente a advinda de atividades terrestres.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 15: Vida Terrestre</strong></summary>
+<p>Proteger, recuperar e promover o uso sustentável dos ecossistemas terrestres, gerir de forma sustentável as florestas, combater a desertificação, deter e reverter a degradação da terra e deter a perda de biodiversidade.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 16: Paz, Justiça e Instituições Eficazes</strong></summary>
+<p>Promover sociedades pacíficas e inclusivas para o desenvolvimento sustentável, proporcionar o acesso à justiça para todos e construir instituições eficazes, responsáveis e inclusivas em todos os níveis.</p>
+</details>
+
+<details class="card ods-card">
+<summary><strong>ODS 17: Parcerias e Meios de Implementação</strong></summary>
+<p>Fortalecer os meios de implementação e revitalizar a parceria global para o desenvolvimento sustentável. Envolve fortalecer a parceria global para o desenvolvimento sustentável, complementada por parcerias multissetoriais que mobilizem e compartilhem conhecimento, expertise, tecnologia e recursos financeiros.</p>
+</details>
+</div>
+</div>
+</main>
+
+<footer style="margin-top: 2rem; padding: 2rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-light); color: var(--text-secondary); text-align: center;">
+<div style="max-width: 1200px; margin: 0 auto;">
+<p><strong>STEAM & IA: Criatividade, Autoria e Responsabilidade</strong> — Ministrante: Mary Grace Andrioli (IFSP)</p>
+<p>Datas disponíveis: 01/09, 02/09, 03/09, 04/09 • Contato <strong>maryg@ifsp.edu.br</strong></p>
+</div>
+</footer>
+
+<script>
+// Acessibilidade: Alto contraste e tamanho da fonte
+const btnHC = document.getElementById('btn-contraste');
+const btnFontMinus = document.getElementById('btn-font--');
+const btnFontPlus = document.getElementById('btn-font++');
+
+function applyPrefs(){
+  const hc = localStorage.getItem('hc')==='1';
+  document.body.style.filter = hc ? 'invert(1) hue-rotate(180deg)' : '';
+  if(btnHC) btnHC.setAttribute('aria-pressed', String(hc));
+  const fs = localStorage.getItem('fs') || '16';
+  document.documentElement.style.fontSize = fs + 'px';
+}
+applyPrefs();
+
+if(btnHC) {
+  btnHC.addEventListener('click', ()=>{
+    const on = !(localStorage.getItem('hc')==='1');
+    localStorage.setItem('hc', on?'1':'0');
+    applyPrefs();
+  });
+}
+
+function changeFont(delta){
+  const cur = parseInt(localStorage.getItem('fs')||'16',10);
+  const next = Math.max(12, Math.min(24, cur + delta));
+  localStorage.setItem('fs', next);
+  applyPrefs();
+}
+if(btnFontMinus) btnFontMinus.addEventListener('click', ()=>changeFont(-2));
+if(btnFontPlus) btnFontPlus.addEventListener('click', ()=>changeFont(+2));
+</script>
+</body>
+</html>
