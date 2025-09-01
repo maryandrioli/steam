@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Material de Apoio - STEAM & IA</title>
+<meta content="Ferramentas e estratégias para uso de IA na oficina STEAM." name="description"/>
+<style>
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F9F9F9;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --blue-dark: #002D57;
+      --purple-accent: #6F2E91;
+      --blue-light: #1C75BC;
+      --border-light: #E0E0E0;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --success-color: #28A745;
+      --warning-color: #FFC107;
+      --info-color: #17A2B8;
+      --radius: 12px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    
+    .skip-link:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      padding: 0.5rem;
+      background: var(--blue-dark);
+      color: white;
+      z-index: 9999;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-primary);
+      border-bottom: 2px solid var(--border-light);
+      box-shadow: 0 2px 8px var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-dark), var(--purple-accent));
+      box-shadow: 0 4px 6px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .brand h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin: 0;
+    }
+
+    .accessibility-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background: white;
+      border-color: var(--blue-light);
+      box-shadow: 0 2px 4px var(--shadow-light);
+    }
+
+    .btn.primary {
+      background: var(--blue-dark);
+      color: white;
+      border-color: var(--blue-dark);
+    }
+
+    .btn.primary:hover {
+      background: var(--purple-accent);
+      border-color: var(--purple-accent);
+    }
+
+    /* Navigation */
+    .nav-links {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      background: var(--bg-secondary);
+      color: var(--blue-dark);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: 1px solid var(--border-light);
+    }
+
+    .nav-links a:hover {
+      background: var(--blue-light);
+      color: white;
+      box-shadow: 0 4px 6px var(--shadow-light);
+    }
+
+    .nav-links a.active {
+      background: var(--purple-accent);
+      color: white;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid var(--purple-accent);
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .intro-text {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--blue-light);
+    }
+
+    /* Grid System */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      .grid.cols-2, .grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px var(--shadow-light);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px var(--shadow-light);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--blue-dark);
+    }
+
+    .card.highlight {
+      border-left: 4px solid var(--purple-accent);
+    }
+
+    .card.info {
+      border-left: 4px solid var(--blue-light);
+      background: var(--bg-secondary);
+    }
+
+    /* Tool Cards */
+    .tool-card {
+      border-left: 4px solid var(--success-color);
+    }
+
+    .tool-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tool-card .description {
+      color: var(--text-secondary);
+      margin: 1rem 0;
+    }
+
+    .tool-card .links {
+      margin: 1rem 0;
+    }
+
+    .tool-card .links a {
+      color: var(--blue-light);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .tool-card .links a:hover {
+      color: var(--purple-accent);
+      text-decoration: underline;
+    }
+
+    /* Tags and Pills */
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 1px solid var(--border-light);
+    }
+
+    .tag.primary {
+      background: var(--blue-light);
+      color: white;
+      border-color: var(--blue-light);
+    }
+
+    .tag.success {
+      background: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+    }
+
+    .tag.warning {
+      background: var(--warning-color);
+      color: var(--text-primary);
+      border-color: var(--warning-color);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+    }
+
+    .filters label {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .filter-chip {
+      background: white;
+      border: 1px solid var(--border-light);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 14px;
+    }
+
+    .filter-chip:hover {
+      border-color: var(--blue-light);
+      box-shadow: 0 2px 4px var(--shadow-light);
+    }
+
+    .filter-chip.active {
+      background: var(--blue-light);
+      color: white;
+      border-color: var(--blue-light);
+    }
+
+    /* Utility Classes */
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-secondary); }
+    .mb-2 { margin-bottom: 2rem; }
+    .mt-2 { margin-top: 2rem; }
+    .hidden { display: none; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .brand h1 {
+        font-size: 1.5rem;
+      }
+      
+      .nav-links {
+        justify-content: center;
+      }
+      
+      .filters {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      header .accessibility-controls,
+      .nav-links,
+      .filters {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+      }
+      
+      .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<header>
+<div class="header-content">
+<div class="brand">
+<div class="logo">📚</div>
+<div>
+<h1>🤖 IAs de Apoio - STEAM & IA</h1>
+</div>
+</div>
+<div class="accessibility-controls">
+<button aria-label="Diminuir tamanho da fonte" class="btn" id="btn-font--" title="Diminuir fonte">A−</button>
+<button aria-label="Aumentar tamanho da fonte" class="btn" id="btn-font++" title="Aumentar fonte">A+</button>
+<button aria-label="Ativar alto contraste" aria-pressed="false" class="btn" id="btn-contraste" title="Alto contraste">Alto contraste</button>
+<button aria-label="Imprimir página" class="btn" onclick="window.print()" title="Imprimir">Imprimir</button>
+</div>
+</div>
+<div class="nav-links">
+<a href="index.html">🏠 Proposta Geral</a>
+<a href="apoio.html" class="active">🤖 IAs de Apoio</a>
+<a href="dicas.html">💡 Dicas & Materiais</a>
+<a href="prompts.html">🤖 Prompts</a>
+</div>
+</header>
+
+<main class="container" id="conteudo" tabindex="-1">
+<div class="intro-text">
+Use os filtros para encontrar a ferramenta adequada ao seu projeto. Sempre registre os <em>prompts</em> utilizados e verifique as fontes antes de tomar decisões importantes.
+</div>
+
+<div aria-label="Filtros de ferramentas" class="filters" role="group">
+<label>🔍 Filtrar por finalidade:</label>
+<button class="filter-chip" data-filter="texto">✍️ Texto</button>
+<button class="filter-chip" data-filter="imagem">🖼️ Imagem</button>
+<button class="filter-chip" data-filter="video">🎥 Vídeo</button>
+<button class="filter-chip" data-filter="audio">🎵 Áudio</button>
+<button class="filter-chip" data-filter="simulacao">⚗️ Simulação</button>
+<button class="filter-chip" data-filter="prototipagem">🔧 Prototipagem</button>
+<button class="filter-chip" data-filter="all">🗂️ Mostrar Todos</button>
+</div>
+
+<div class="grid cols-3" id="tools-container">
+
+<!-- ChatGPT -->
+<article class="card tool-card" data-purpose="texto prototipagem" tabindex="0">
+<h3>🤖 ChatGPT</h3>
+<div class="description">Assistente de texto versátil para ideias, organização, rubricas, código simples e prototipagem de atividades. <strong>Não insira dados sensíveis.</strong></div>
+<div class="links">
+<a href="https://chatgpt.com/g/g-68b582b0ddf08191bba7b5efa2522dd0-duvidas-steam-ia" rel="noopener" target="_blank">Abrir GPT de dúvidas da oficina</a> • 
+<a href="https://chatgpt.com/" rel="noopener" target="_blank">Abrir ChatGPT</a>
+</div>
+<div class="tags">
+<span class="tag primary">Texto</span>
+<span class="tag">Planejamento</span>
+<span class="tag">Rubricas</span>
+</div>
+</article>
+
+<!-- Claude -->
+<article class="card tool-card" data-purpose="texto" tabindex="0">
+<h3>🧠 Claude</h3>
+<div class="description">Excelente para análise cuidadosa de texto longo, síntese e organização de documentos. Atenção às políticas de privacidade.</div>
+<div class="links">
+<a href="https://claude.ai/" rel="noopener" target="_blank">Abrir Claude</a>
+</div>
+<div class="tags">
+<span class="tag primary">Texto longo</span>
+<span class="tag">Análise</span>
+</div>
+</article>
+
+<!-- Gemini -->
+<article class="card tool-card" data-purpose="texto imagem video" tabindex="0">
+<h3>💎 Gemini</h3>
+<div class="description">Ideal para pesquisa orientada, geração multimodal (texto, imagem, vídeo) e uso em sala com Google Workspace. Valide referências.</div>
+<div class="links">
+<a href="https://gemini.google.com/app" rel="noopener" target="_blank">Abrir Gemini</a>
+</div>
+<div class="tags">
+<span class="tag success">Multimodal</span>
+<span class="tag primary">Pesquisa</span>
+</div>
+</article>
+
+<!-- Canva -->
+<article class="card tool-card" data-purpose="imagem video prototipagem" tabindex="0">
+<h3>🎨 Canva</h3>
+<div class="description">Design gráfico e vídeo com modelos prontos e recursos de IA. Ideal para cartazes, infográficos, vídeos curtos e apresentações.</div>
+<div class="links">
+<a href="https://www.canva.com/" rel="noopener" target="_blank">Abrir Canva</a>
+</div>
+<div class="tags">
+<span class="tag warning">Design</span>
+<span class="tag primary">Vídeo</span>
+<span class="tag">Slides</span>
+</div>
+</article>
+
+<!-- Manus -->
+<article class="card tool-card" data-purpose="simulacao prototipagem" tabindex="0">
+<h3>⚗️ Manus</h3>
+<div class="description">Criação de aplicações e simulações com IA (experimentos virtuais, prototipagem de soluções). Plataforma para desenvolvimento de apps e protótipos interativos.</div>
+<div class="links">
+<a href="https://manus.im/app" rel="noopener" target="_blank">Abrir Manus</a>
+</div>
+<div class="tags">
+<span class="tag success">Simulação</span>
+<span class="tag primary">Apps</span>
+</div>
+</article>
+
+<!-- SciSpace -->
+<article class="card tool-card" data-purpose="texto" tabindex="0">
+<h3>🔬 SciSpace</h3>
+<div class="description">Localiza e explica pesquisas recentes. Use para <em>comparar</em> resultados de IA com evidências publicadas e evitar desinformação.</div>
+<div class="links">
+<a href="https://scispace.com/" rel="noopener" target="_blank">Abrir SciSpace</a>
+</div>
+<div class="tags">
+<span class="tag success">Pesquisa</span>
+<span class="tag warning">Checagem</span>
+</div>
+</article>
+
+<!-- Padlet -->
+<article class="card tool-card" data-purpose="prototipagem" tabindex="0">
+<h3>📌 Padlet</h3>
+<div class="description">Murais colaborativos para organizar fontes, evidências e protótipos de cada equipe.</div>
+<div class="links">
+<a href="https://padlet.com/" rel="noopener" target="_blank">Abrir Padlet</a>
+</div>
+<div class="tags">
+<span class="tag success">Colaboração</span>
+<span class="tag">Portfólio</span>
+</div>
+</article>
+
+<!-- CapCut -->
+<article class="card tool-card" data-purpose="video" tabindex="0">
+<h3>✂️ CapCut</h3>
+<div class="description">Edição de vídeo acessível para registrar resultados e criar campanhas educativas. Oferece recursos com IA.</div>
+<div class="links">
+<a href="https://www.capcut.com/" rel="noopener" target="_blank">Abrir CapCut</a>
+</div>
+<div class="tags">
+<span class="tag primary">Vídeo</span>
+<span class="tag warning">Campanhas</span>
+</div>
+</article>
+
+
+<!-- Turbo Scribe -->
+<article class="card tool-card" data-purpose="audio texto" tabindex="0">
+  <h3>🎙️ Turbo Scribe</h3>
+  <div class="description">Ferramenta para transcrição de áudio em texto. Útil para registrar entrevistas, apresentações e vídeos curtos.</div>
+  <div class="links">
+    <a href="https://turboscribe.ai/" rel="noopener" target="_blank">Abrir Turbo Scribe</a>
+  </div>
+  <div class="tags">
+    <span class="tag primary">Áudio</span>
+    <span class="tag">Transcrição</span>
+  </div>
+</article>
+
+<!-- NotebookLM -->
+<article class="card tool-card" data-purpose="texto" tabindex="0">
+  <h3>📓 NotebookLM</h3>
+  <div class="description">Ferramenta do Google Labs para pesquisa e anotações com IA (Gemini) a partir dos seus documentos. Evite enviar dados sensíveis.</div>
+  <div class="links">
+    <a href="https://notebooklm.google.com/" rel="noopener" target="_blank">Abrir NotebookLM</a>
+  </div>
+  <div class="tags">
+    <span class="tag primary">Pesquisa</span>
+    <span class="tag">Anotações</span>
+  </div>
+</article>
+
+<!-- GetButton -->
+<article class="card tool-card" data-purpose="prototipagem texto" tabindex="0">
+  <h3>💬 GetButton (Chatbot)</h3>
+  <div class="description">Crie chatbots para tirar dúvidas ou fazer atendimento com IA e integre em sites/mensagerias.</div>
+  <div class="links">
+    <a href="https://admin.getbutton.io/" rel="noopener" target="_blank">Abrir GetButton</a>
+  </div>
+  <div class="tags">
+    <span class="tag primary">Chatbot</span>
+    <span class="tag">Atendimento</span>
+  </div>
+</article>
+
+
+</div>
+
+
+<!-- HeyGen -->
+<article class="card tool-card" data-purpose="video audio" tabindex="0">
+  <h3>🗣️ HeyGen (Avatares Multilíngues)</h3>
+  <div class="description">Crie avatares que falam em diferentes idiomas a partir de um vídeo gravado, com dublagem e sincronização labial por IA. <strong>Atenção:</strong> respeite direitos de imagem/voz e evite dados pessoais sensíveis.</div>
+  <div class="links">
+    <a href="https://app.heygen.com/" rel="noopener" target="_blank">Abrir HeyGen</a>
+  </div>
+  <div class="tags">
+    <span class="tag primary">Vídeo</span>
+    <span class="tag">Avatar</span>
+    <span class="tag">Tradução</span>
+  </div>
+</article>
+
+<!-- Consensus -->
+<article class="card tool-card" data-purpose="texto" tabindex="0">
+  <h3>📚 Consensus (Pesquisa Científica)</h3>
+  <div class="description">Buscador que encontra e sintetiza evidências a partir de artigos científicos. Útil para comparar achados de IA com literatura e evitar referências falsas.</div>
+  <div class="links">
+    <a href="https://consensus.app/" rel="noopener" target="_blank">Abrir Consensus</a>
+  </div>
+  <div class="tags">
+    <span class="tag success">Pesquisa</span>
+    <span class="tag warning">Checagem</span>
+  </div>
+</article>
+<div class="card highlight">
+<h3>💡 Estratégias de Comandos (Prompts)</h3>
+<ul>
+<li><strong>Declare papéis:</strong> "Você é meu revisor técnico e aponta riscos éticos"</li>
+<li><strong>Exija fontes verificáveis</strong> e peça <em>limitações</em> e <em>incertezas</em> do modelo</li>
+<li>Peça <strong>passo a passo</strong>, <strong>esboços</strong> e <strong>alternativas</strong> (piso baixo, teto alto, paredes largas)</li>
+<li>Solicite <em>checklist</em> de privacidade e verificação de viés</li>
+<li>Use <strong>comparações</strong> entre pesquisa com IA, experimentos práticos e métodos convencionais</li>
+</ul>
+</div>
+
+<div class="card info">
+<h3>📋 Modelo de Prompt Reutilizável</h3>
+<div style="background: #f8f9fa; padding: 1rem; border-radius: var(--radius); border-left: 4px solid var(--blue-light); margin: 1rem 0;">
+<strong>Contexto:</strong> [turma, tempo, recursos, conectividade]<br>
+<strong>Objetivo:</strong> [produto final e competências]<br>
+<strong>Critérios de qualidade:</strong> [rubrica/responsável]<br>
+<strong>Restrições:</strong> sem dados pessoais; marcar trechos com IA; citar fontes confiáveis<br>
+<strong>Tarefas:</strong> 1) [investigar] 2) [comparar] 3) [prototipar] 4) [validar]<br>
+<strong>Entregas:</strong> [artefatos] + [registro transparente]
+</div>
+</div>
+
+<div class="card">
+<h3>🤖 GPT de Dúvidas da Oficina</h3>
+<p>Use o <strong>GPT de dúvidas da oficina</strong> para perguntar sobre uso pedagógico e ético da IA, exemplos de prompts e validação de fontes:</p>
+<div style="text-align: center; margin: 1.5rem 0;">
+<a href="https://chatgpt.com/g/g-68b582b0ddf08191bba7b5efa2522dd0-duvidas-steam-ia" class="btn primary" rel="noopener" target="_blank">
+🔗 Acessar GPT de Dúvidas
+</a>
+</div>
+</div>
+
+</main>
+
+<footer style="margin-top: 2rem; padding: 2rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-light); color: var(--text-secondary); text-align: center;">
+<div style="max-width: 1200px; margin: 0 auto;">
+<p><strong>STEAM & IA: Criatividade, Autoria e Responsabilidade</strong> — Ministrante: Mary Grace Andrioli (IFSP)</p>
+<div class="nav-links" style="justify-content: center; padding-top: 1rem;">
+<a href="index.html">🏠 Voltar à Proposta Geral</a>
+<a href="dicas.html">💡 Próximo: Dicas & Materiais</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Acessibilidade: Alto contraste e tamanho da fonte
+const btnHC = document.getElementById('btn-contraste');
+const btnFontMinus = document.getElementById('btn-font--');
+const btnFontPlus = document.getElementById('btn-font++');
+
+function applyPrefs(){
+  const hc = localStorage.getItem('hc')==='1';
+  document.body.style.filter = hc ? 'invert(1) hue-rotate(180deg)' : '';
+  if(btnHC) btnHC.setAttribute('aria-pressed', String(hc));
+  const fs = localStorage.getItem('fs') || '16';
+  document.documentElement.style.fontSize = fs + 'px';
+}
+applyPrefs();
+
+if(btnHC) {
+  btnHC.addEventListener('click', ()=>{
+    const on = !(localStorage.getItem('hc')==='1');
+    localStorage.setItem('hc', on?'1':'0');
+    applyPrefs();
+  });
+}
+
+function changeFont(delta){
+  const cur = parseInt(localStorage.getItem('fs')||'16',10);
+  const next = Math.max(12, Math.min(24, cur + delta));
+  localStorage.setItem('fs', next);
+  applyPrefs();
+}
+if(btnFontMinus) btnFontMinus.addEventListener('click', ()=>changeFont(-2));
+if(btnFontPlus) btnFontPlus.addEventListener('click', ()=>changeFont(+2));
+
+// Filtros de ferramentas
+const filterButtons = document.querySelectorAll('.filter-chip');
+const toolCards = document.querySelectorAll('.tool-card');
+
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const filter = button.getAttribute('data-filter');
+    
+    // Update active state
+    filterButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    
+    // Filter tools
+    toolCards.forEach(card => {
+      if (filter === 'all') {
+        card.style.display = 'block';
+      } else {
+        const purpose = card.getAttribute('data-purpose');
+        if (purpose && purpose.includes(filter)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      }
+    });
+  });
+});
+
+// Set initial filter to "all"
+document.querySelector('[data-filter="all"]').click();
+</script>
+</body>
+</html>
