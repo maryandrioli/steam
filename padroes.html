@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>10 Padrões de IA na Educação — Cartões Interativos</title>
+<style>
+    :root{
+      --bg:#ffffff;
+      --panel:#f7f7fb;
+      --panel-2:#efeff6;
+      --text:#0b1020;
+      --muted:#475569;
+      --accent:#2563eb;
+      --accent-2:#7c3aed;
+      --focus:#f59e0b;
+      --ok:#059669;
+      --border: rgba(2,6,23,.14);
+    }
+    /* Dark theme */
+    body.theme-dark{
+      --bg:#0f172a;
+      --panel:#111827;
+      --panel-2:#1f2937;
+      --text:#e5e7eb;
+      --muted:#cbd5e1;
+      --accent:#22d3ee;
+      --accent-2:#a78bfa;
+      --focus:#fbbf24;
+      --ok:#34d399;
+      --border: rgba(148,163,184,.25);
+    }
+    /* High contrast */
+    body.theme-hicontrast{
+      --bg:#000000;
+      --panel:#000000;
+      --panel-2:#000000;
+      --text:#ffffff;
+      --muted:#ffffff;
+      --accent:#00ffff;
+      --accent-2:#ff00ff;
+      --focus:#ffff00;
+      --ok:#00ff00;
+      --border:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.5;
+      color:var(--text);
+      background: var(--bg);
+    }
+    a{color:var(--accent)}
+    a:focus{outline:3px solid var(--focus); outline-offset:2px}
+    header{
+      max-width:1120px;
+      margin:24px auto 8px;
+      padding:16px;
+    }
+    .title{
+      font-size:clamp(1.5rem, 2vw + 1rem, 2.2rem);
+      margin:0 0 6px 0;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:1rem;
+    }
+    .theme-switch{
+      max-width:1120px;
+      margin:0 auto 8px;
+      padding:0 16px 8px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .theme-switch button{
+      background:var(--panel-2);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .cards{
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:14px;
+    }
+    .card{
+      background:linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      position:relative;
+      transition:transform .15s ease, border-color .15s ease;
+    }
+    .card:hover{transform:translateY(-3px); border-color: var(--accent-2)}
+    .badge{
+      display:inline-block;
+      font-size:.76rem;
+      padding:2px 8px;
+      border-radius:999px;
+      background:rgba(124,58,237,.12);
+      border:1px solid rgba(124,58,237,.35);
+      color:var(--accent-2);
+      margin-bottom:8px;
+    }
+    .card h3{
+      margin:.2rem 0 .25rem 0;
+      font-size:1.05rem;
+    }
+    .card p{
+      margin:.25rem 0 .5rem 0;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .card a.button{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid var(--accent-2);
+      text-decoration:none;
+      color:var(--text);
+      background:linear-gradient(180deg, rgba(124,58,237,.12), rgba(124,58,237,.06));
+      font-weight:700;
+    }
+    .card a.button span.icon{
+      width:18px;height:18px; display:inline-block;
+      border-radius:4px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-2));
+    }
+    .sections{
+      max-width:1120px;
+      margin:4px auto 48px;
+      padding:0 16px 16px;
+    }
+    section.detail{
+      background:linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--border);
+      border-radius:16px;
+      margin:18px 0;
+      overflow:hidden;
+    }
+    section.detail header{
+      padding:14px 16px;
+      margin:0;
+      background:linear-gradient(180deg, var(--panel-2), var(--panel));
+      border-bottom:1px solid var(--border);
+    }
+    section.detail header h2{
+      font-size:1.1rem;
+      margin:0;
+    }
+    .meta{
+      color:var(--muted);
+      font-size:.92rem;
+      margin-top:4px;
+    }
+    .content{
+      padding:14px 16px 18px 16px;
+    }
+    details{
+      background:transparent;
+      border:1px dashed var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+    }
+    details>summary{
+      cursor:pointer;
+      font-weight:700;
+    }
+    ul{padding-left:18px}
+    .toc{
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 16px 12px;
+    }
+    .toc a{margin-right:10px; font-size:.95rem}
+    .top-link{
+      display:inline-block; margin-top:10px;
+    }
+    footer{
+      max-width:1120px;
+      margin:0 auto 28px;
+      padding:16px;
+      color:var(--muted);
+      border-top:1px dashed var(--border);
+    }
+    .sr-only{
+      position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
+  </style>
+</head>
+<body class="theme-light">
+<a class="sr-only" href="#topo" id="topo">Topo</a>
+<header>
+<h1 class="title">10 Padrões de IA na Educação — Cartões Interativos</h1>
+<p class="subtitle">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></p>
+</header>
+<div aria-label="Alternar tema" class="theme-switch">
+<button aria-label="Ativar tema claro (fundo branco)" onclick="setTheme('theme-light')" type="button">Tema claro</button>
+<button aria-label="Ativar tema escuro" onclick="setTheme('theme-dark')" type="button">Tema escuro</button>
+<button aria-label="Ativar alto contraste" onclick="setTheme('theme-hicontrast')" type="button">Alto contraste</button>
+</div>
+<nav aria-label="Atalhos para detalhes" class="toc">
+<span class="sr-only">Ir para detalhes:</span>
+<a href="#padrao-1">1. Crie &amp; Critique</a>
+<a href="#padrao-2">2. Colabore</a>
+<a href="#padrao-3">3. Compare</a>
+<a href="#padrao-4">4. Transforme</a>
+<a href="#padrao-5">5. Expresse</a>
+<a href="#padrao-6">6. Explore</a>
+<a href="#padrao-7">7. Explique</a>
+<a href="#padrao-8">8. Desafie</a>
+<a href="#padrao-9">9. Treine</a>
+<a href="#padrao-10">10. Debata</a>
+</nav>
+<main aria-label="Cartões interativos dos padrões" class="cards">
+<!-- 1 -->
+<div class="card">
+<span class="badge">Padrão 1</span>
+<h3>Crie &amp; Critique</h3>
+<p>Gerar artefatos com IA (textos, imagens, vídeos, mapas, simulações) e analisar criticamente os resultados à luz de conceitos/teorias ou expectativas do grupo.</p>
+<a aria-label="Ver detalhes do padrão Crie e Critique" class="button" href="#padrao-1"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 2 -->
+<div class="card">
+<span class="badge">Padrão 2</span>
+<h3>Colabore</h3>
+<p>Iterar com a IA em vários ciclos para coautorizar um artefato com critérios definidos pelos professores. Resultado atribuído à dupla estudante–IA.</p>
+<a aria-label="Ver detalhes do padrão Colabore" class="button" href="#padrao-2"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 3 -->
+<div class="card">
+<span class="badge">Padrão 3</span>
+<h3>Compare</h3>
+<p>Utilizar diferentes IAs e comparar desempenho, esforço necessário e qualidade dos resultados produzidos.</p>
+<a aria-label="Ver detalhes do padrão Compare" class="button" href="#padrao-3"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 4 -->
+<div class="card">
+<span class="badge">Padrão 4</span>
+<h3>Transforme</h3>
+<p>Transpor um artefato para outra mídia com IA generativa e debater os resultados alcançados.</p>
+<a aria-label="Ver detalhes do padrão Transforme" class="button" href="#padrao-4"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 5 -->
+<div class="card">
+<span class="badge">Padrão 5</span>
+<h3>Expresse</h3>
+<p>Expressar artisticamente um conceito/sentimento com IA não textual, construindo coletivamente os critérios de qualidade.</p>
+<a aria-label="Ver detalhes do padrão Expresse" class="button" href="#padrao-5"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 6 -->
+<div class="card">
+<span class="badge">Padrão 6</span>
+<h3>Explore</h3>
+<p>Aprender autonomamente sobre um conceito/processo com IA; foco no processo de descoberta e aprendizado.</p>
+<a aria-label="Ver detalhes do padrão Explore" class="button" href="#padrao-6"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 7 -->
+<div class="card">
+<span class="badge">Padrão 7</span>
+<h3>Explique</h3>
+<p>Solicitar que a IA resolva e explique passo a passo, comparando com o raciocínio dos estudantes.</p>
+<a aria-label="Ver detalhes do padrão Explique" class="button" href="#padrao-7"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 8 -->
+<div class="card">
+<span class="badge">Padrão 8</span>
+<h3>Desafie</h3>
+<p>Criar desafios para verificar o que a IA consegue (ou não) resolver, exercitando criatividade e domínio do problema.</p>
+<a aria-label="Ver detalhes do padrão Desafie" class="button" href="#padrao-8"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 9 -->
+<div class="card">
+<span class="badge">Padrão 9</span>
+<h3>Treine</h3>
+<p>Treinar agentes inteligentes para comportamentos/soluções e avaliar a efetividade do treinamento.</p>
+<a aria-label="Ver detalhes do padrão Treine" class="button" href="#padrao-9"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+<!-- 10 -->
+<div class="card">
+<span class="badge">Padrão 10</span>
+<h3>Debata</h3>
+<p>Colocar agentes treinados para debater entre si e analisar os caminhos do debate e os argumentos.</p>
+<a aria-label="Ver detalhes do padrão Debata" class="button" href="#padrao-10"><span aria-hidden="true" class="icon"></span><span>Ver detalhamento</span></a>
+</div>
+</main>
+<div aria-label="Seções de detalhamento" class="sections">
+<!-- 1 -->
+<section aria-labelledby="h-p1" class="detail" id="padrao-1">
+<header>
+<h2 id="h-p1">Padrão 1 — Crie &amp; Critique</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Demanda que os estudantes utilizem ferramentas de IA Generativas para criar artefatos (como textos, imagens ou vídeos) e, em seguida, analisem e critiquem as características desses artefatos à luz de conceitos e teorias trabalhadas, ou de suas próprias expectativas. O foco principal é incentivar o pensamento crítico e a autoavaliação.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>ChatGPT (para gerar textos)</li><li>DALL-E (para gerar imagens)</li><li>Synthesia (para criar vídeos)</li><li>Google Earth ou software de mapeamento digital (para coletar dados geográficos)</li><li>Canva (plataforma de design gráfico, em conjunto com IA generativa)</li><li>Blender ou Tinkercad (softwares de modelagem 3D)</li><li>Midjourney (para gerar representações visuais)</li><li>Simulink ou PTC Creo (softwares de simulação de motores)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Crie &amp; Critique Mapas Geográficos:</strong> estudantes utilizam Google Earth ou software de mapeamento digital e Canva (com IA generativa como DALL‑E) para criar mapas interativos de recursos naturais e, em seguida, analisam e criticam suas representações visuais.</li>
+<li><strong>Crie &amp; Critique a Anatomia Humana:</strong> alunos de medicina usam Blender ou Tinkercad e Midjourney ou DALL‑E para criar modelos 3D de sistemas do corpo humano, criticando a precisão e a eficácia desses modelos.</li>
+<li><strong>Crie &amp; Critique Motores a Combustão Interna:</strong> estudantes de curso técnico utilizam Simulink ou PTC Creo e ferramentas de IA generativa para analisar dados de desempenho, criar simulações de diagnósticos e reparos, avaliando a eficácia das soluções.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 2 -->
+<section aria-labelledby="h-p2" class="detail" id="padrao-2">
+<header>
+<h2 id="h-p2">Padrão 2 — Colabore</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Requer que os estudantes utilizem ferramentas de Inteligência Artificial de maneira interativa, em diversas tentativas e ciclos, para criar um artefato que atenda a um conjunto de características definidas pelos professores. O resultado do trabalho é atribuído à colaboração entre o estudante e a ferramenta.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>ChatGPT (como assistente de escrita)</li><li>Plataformas de design colaborativo que usam algoritmos de IA (para gerar ideias e sugestões de design de produto)</li><li>SketchUp com o plugin Sefaira (para maquetes digitais e simulações de desempenho energético em arquitetura)</li><li>Lumion (para visualização em tempo real de projetos em 3D e simulação de condições climáticas)</li><li>AutoCAD (versão mais recente com recursos de IA para auxiliar em projetos)</li><li>Archicad (para modelagem e simulação avançadas)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Colabore com Arte:</strong> alunos do ensino médio criam um quadro inspirado no estilo surrealista de Salvador Dalí, colaborando com uma ferramenta de IA que gera sugestões visuais para a composição.</li>
+<li><strong>Colabore com Programação:</strong> estudantes usam um assistente de programação de IA para construir um algoritmo que identifique e classifique figuras geométricas, colaborando na geração de esboços de código e otimização.</li>
+<li><strong>Colabore com a Sustentabilidade:</strong> alunos de arquitetura e urbanismo criam um conceito de espaço urbano sustentável com SketchUp + Sefaira, Lumion, AutoCAD (IA) e Archicad para design e simulações de desempenho.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 3 -->
+<section aria-labelledby="h-p3" class="detail" id="padrao-3">
+<header>
+<h2 id="h-p3">Padrão 3 — Compare</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Os estudantes utilizam diferentes ferramentas de IA para criar artefatos, com o objetivo de observar e comparar o desempenho dessas ferramentas, analisando as características dos resultados e o esforço necessário para alcançá-los.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>ChatGPT (para gerar histórias ou ensaios)</li><li>Jasper ou Writesonic (para comparar textos gerados)</li><li>DALL-E ou Midjourney (para criar arte digital e comparar imagens)</li><li>Stable Diffusion (para criar imagens)</li><li>Canva AI, Looka ou LogoMaker (para criar logomarcas)</li><li>Trello (com funcionalidades de IA para automação de tarefas)</li><li>Asana (com assistente virtual que sugere prazos e prioridades)</li><li>Microsoft Project (com recursos de análise preditiva para identificar riscos)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Compare a Natureza:</strong> estudantes de botânica usam DALL‑E, Midjourney ou Stable Diffusion para criar imagens de espécies de plantas e comparam a capacidade de representá‑las com precisão.</li>
+<li><strong>Compare Marcas:</strong> alunos de design e comunicação criam logomarcas com Canva AI, Looka ou LogoMaker para empresas fictícias e comparam qualidade e relevância dos resultados com diferentes prompts.</li>
+<li><strong>Compare Projetos:</strong> em gestão de projetos, participantes usam Trello (automação), Asana (assistente) ou Microsoft Project (análise preditiva) para planos de projeto e comparam resultados e processos.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 4 -->
+<section aria-labelledby="h-p4" class="detail" id="padrao-4">
+<header>
+<h2 id="h-p4">Padrão 4 — Transforme</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Propõe partir de um artefato específico (texto/imagem) e transpô‑lo para outra mídia (vídeo/música) com ajuda de IA generativa, debatendo os resultados alcançados.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>ChatGPT (para reescrever textos em diferentes estilos)</li><li>DALL-E ou Midjourney (para gerar imagens a partir de descrições textuais)</li><li>Synthesia (para criar vídeos com avatares)</li><li>RunwayML ou DeepArt (para transformar ideias visuais em imagens)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Transforme Imagens em Contos:</strong> alunos do ensino fundamental usam uma imagem como inspiração e, com ChatGPT, desenvolvem narrativas.</li>
+<li><strong>Transforme Animais em Carros:</strong> crianças transformam características de um animal em designs de carros com DALL‑E ou Midjourney.</li>
+<li><strong>Transforme Filmes em Artefatos:</strong> estudantes de design industrial escolhem um filme e criam uma peça (objeto funcional/escultura) que capture sua essência, usando RunwayML ou DeepArt.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 5 -->
+<section aria-labelledby="h-p5" class="detail" id="padrao-5">
+<header>
+<h2 id="h-p5">Padrão 5 — Expresse</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Os estudantes utilizam ferramentas de IA generativa (especialmente as não textuais) para expressar artisticamente um conceito ou sentimento. Não há critérios pré‑definidos; construí‑los é objetivo central.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>Artbreeder, DeepDream e DALL-E (para criar visuais dinâmicos)</li><li>AIVA ou Amper Music (para criar composições musicais)</li><li>Figma ou Adobe XD (com recursos de IA para prototipagem rápida de interfaces gráficas)</li><li>Lumen5 ou Pictory (para criação simplificada de vídeos a partir de texto ou imagens)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Expresse com Música:</strong> compor emoções com AIVA ou Amper Music.</li>
+<li><strong>Expresse com Protótipos:</strong> prototipar interfaces para necessidades de um cliente com Figma ou Adobe XD.</li>
+<li><strong>Expresse com Vídeos:</strong> criar vídeos que expressem conceitos sociais/sentimentos usando Lumen5 ou Pictory.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 6 -->
+<section aria-labelledby="h-p6" class="detail" id="padrao-6">
+<header>
+<h2 id="h-p6">Padrão 6 — Explore</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Os estudantes utilizam uma ou mais ferramentas de IA para aprender de forma autônoma sobre um conceito ou processos para resolver um problema. O foco é o processo de descoberta e aprendizado.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>Algodoo ou PhET Interactive Simulations (simuladores baseados em IA para fenômenos físicos)</li><li>GitHub Copilot (assistente de codificação para explorar sintaxes e lógicas de programação)</li><li>Google Earth Engine (para analisar mudanças no ambiente ao longo do tempo)</li><li>ChemCollective Virtual Lab e Labster (para simular reações químicas)</li><li>Tableau, Google Cloud AI Platform e Orange (para análise preditiva e exploração de dados econométricos)</li><li>ClimateAI, OpenForests e Terrapulse (para dados e simulações de impacto ambiental em gestão ambiental)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Explore Reações Químicas:</strong> investigar reações complexas com ChemCollective Virtual Lab e Labster.</li>
+<li><strong>Explore a Complexidade:</strong> explorar relações econômicas complexas com Tableau, Google Cloud AI Platform e Orange.</li>
+<li><strong>Explore o Meio Ambiente:</strong> usar ClimateAI, OpenForests e Terrapulse para entender/comparar teorias de sustentabilidade e impacto ambiental.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 7 -->
+<section aria-labelledby="h-p7" class="detail" id="padrao-7">
+<header>
+<h2 id="h-p7">Padrão 7 — Explique</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Os estudantes demandam que uma ferramenta de IA resolva problemas <em>e</em> explique passo a passo sua solução. Objetivo: observar a cadeia de raciocínio da IA e compará‑la ao modo humano.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>ChatGPT, IBM Watson Assistant (modelos de geração de texto)</li><li>Wolfram Alpha (para resolver problemas matemáticos e de física, explicando o raciocínio passo a passo)</li><li>Isabel Symptom Checker (ferramenta de IA especializada em medicina para simular diagnósticos)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Explique Equações Quadráticas:</strong> utilizar ChatGPT ou Wolfram Alpha exigindo a explicação de cada passo.</li>
+<li><strong>Explique Leis da Física:</strong> resolver problemas de Leis de Newton com explicação passo a passo no Wolfram Alpha.</li>
+<li><strong>Explique Diagnósticos Médicos:</strong> simular diagnósticos com ChatGPT (treinado com informações médicas) ou Isabel Symptom Checker, pedindo que cada passo do raciocínio seja explicado.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 8 -->
+<section aria-labelledby="h-p8" class="detail" id="padrao-8">
+<header>
+<h2 id="h-p8">Padrão 8 — Desafie</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Os estudantes criam desafios e verificam se a IA é capaz de resolver o problema proposto, exercitando criatividade e aprofundando o entendimento dos limites da tecnologia.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>ChatGPT (para desafios relacionados a textos)</li><li>DALL-E (para gerar imagens a partir de descrições)</li><li>GitHub Copilot (para desafios de programação)</li><li>Jasper.ai (para análise de dados de mercado e criação de conteúdo em marketing)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Desafie o Marketing Digital:</strong> formular desafios em ChatGPT ou Jasper.ai para estratégias de marketing e avaliar a capacidade da IA.</li>
+<li><strong>Desafie Movimentos:</strong> criar desafios sobre cinemática com Wolfram Alpha ou PhET.</li>
+<li><strong>Desafie a Revolução Industrial:</strong> propor análise de causas e consequências da Revolução Industrial com ChatGPT ou plataforma de pesquisa histórica.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 9 -->
+<section aria-labelledby="h-p9" class="detail" id="padrao-9">
+<header>
+<h2 id="h-p9">Padrão 9 — Treine</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Os estudantes devem treinar um agente inteligente para determinado comportamento ou para resolver um tipo de problema e criar cenários para verificar a efetividade do treinamento.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>Strateegia da TDS Company (para criar e treinar assistentes inteligentes virtuais)</li><li>TensorFlow, IBM Watson, OpenAI Gym, Teachable Machine do Google (para treinar agentes e modelos de IA)</li><li>PyTorch ou Keras (para controle detalhado do processo de treinamento em níveis avançados)</li><li>Scratch com extensões de aprendizado de máquina (para introduzir conceitos de treinamento para estudantes mais jovens)</li><li>Dialogflow (para criar e treinar chatbots, como um consultor virtual ou assistente de matemática)</li><li>Khan Academy Kids (para treinar assistentes virtuais de matemática)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Treine Poetas:</strong> treinar com Strateegia para gerar textos ao estilo de Shakespeare e Camões, refinando o modelo.</li>
+<li><strong>Treine Consultores:</strong> criar um consultor virtual para pequenas empresas em Dialogflow.</li>
+<li><strong>Treine o Treinador:</strong> configurar um assistente virtual de matemática (Khan Academy Kids ou chatbot em Dialogflow) para explicar conceitos, responder perguntas e corrigir exercícios.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+<!-- 10 -->
+<section aria-labelledby="h-p10" class="detail" id="padrao-10">
+<header>
+<h2 id="h-p10">Padrão 10 — Debata</h2>
+<div class="meta">Autor: César França • E-book: <em>Experiências Educacionais com Inteligência Artificial</em></div>
+</header>
+<div class="content">
+<p>Após treinar seus próprios agentes inteligentes, os estudantes devem colocá‑los para debater entre si. O objetivo é observar os caminhos do debate e analisar como trocam ideias e formulam argumentos.</p>
+<details>
+<summary>IA(s) sugeridas</summary>
+<ul><li>Plataformas de IA que permitem a construção de agentes especializados em interações conversacionais</li><li>Rasa e Dialogflow (ferramentas de código aberto para ajustar respostas de agentes e observar dinâmicas de debate)</li></ul>
+</details>
+<details>
+<summary>Exemplos (detalhados)</summary>
+<ul>
+<li><strong>Debata o Caso:</strong> agentes (defesa e acusação) debatem um caso fictício em tribunal simulado; usar Rasa/Dialogflow.</li>
+<li><strong>Debata a Estratégia:</strong> agentes especialistas (marketing, pessoas, operações, finanças) debatem estratégias para lançamento de produto.</li>
+<li><strong>Debata Planos de Governo:</strong> agentes que raciocinam/agem como figuras políticas (ex.: Martin Luther King Jr., Margaret Thatcher, Nelson Mandela) debatem planos e questões políticas.</li>
+</ul>
+</details>
+<a class="top-link" href="#topo">Voltar ao topo</a>
+</div>
+</section>
+</div>
+<footer>
+<p><strong>Créditos:</strong> organizado por Mary Grace Pereira Andrioli, a partir do livro de César França (compartilhado por Marilia Rossi) e apoio de programação via Chat GPT <em>Experiências Educacionais com Inteligência Artificial</em>.</p>
+<p><strong>Referência (ABNT):</strong> FRANÇA, César. <em>Experiências Educacionais com Inteligência Artificial</em>. Recife, Pernambuco: Independently published, 2024. 1ª Edição. 182 p. ISBN 9798345038376. Disponível em: 
+      <a href="https://drive.google.com/file/d/1lCTeSN48YzpH8_jzvOKdH2GLxBzbLVdC/view" rel="noopener" target="_blank">https://drive.google.com/file/d/1lCTeSN48YzpH8_jzvOKdH2GLxBzbLVdC/view</a>.
+    </p>
+</footer>
+<script>
+    function setTheme(theme){
+      document.body.classList.remove('theme-light','theme-dark','theme-hicontrast');
+      document.body.classList.add(theme);
+    }
+  </script>
+</body>
+</html>
