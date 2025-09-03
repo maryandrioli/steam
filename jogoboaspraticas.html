@@ -15,18 +15,14 @@
         overflow: hidden;
         height: 100vh;
     }
-
-    /* usa dvh quando suportado para corrigir teclado em mobile */
-    @supports (height: 100dvh) {
-        body { height: 100dvh; }
-    }
+    @supports (height: 100dvh) { body { height: 100dvh; } }
 
     .game-container {
         position: relative;
         width: 100vw;
         height: 100%;
         overflow: hidden;
-        touch-action: none; /* evita scroll acidental no jogo */
+        touch-action: none;
     }
 
     .hud {
@@ -39,21 +35,19 @@
         border-radius: 14px;
         box-shadow: 0 4px 20px rgba(0,0,0,.3);
         border: 2px solid #3498db;
-        max-width: min(90vw, 360px);
+        max-width: min(92vw, 420px);
     }
-
-    .score { font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 4px; }
-    .lives { font-size: 16px; color: #e74c3c; margin-bottom: 4px; }
-    .progress { font-size: 14px; color: #27ae60; font-weight: bold; }
+    .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: baseline; }
+    .score { font-size: 18px; font-weight: bold; color: #2c3e50; }
+    .lives { font-size: 16px; color: #e74c3c; }
+    .progress, .speed { font-size: 14px; color: #27ae60; font-weight: bold; }
 
     .owl {
         position: absolute;
         width: 60px; height: 60px; font-size: 50px;
-        transform: translate3d(0,0,0);
-        transition: transform .06s linear; /* suaviza sem “atrasar” left/top */
         z-index: 10;
         will-change: transform;
-        left: 0; top: 0; /* base para translate */
+        left: 0; top: 0;
         filter: drop-shadow(3px 3px 6px rgba(0,0,0,.4));
         user-select: none;
         -webkit-user-drag: none;
@@ -69,7 +63,6 @@
         animation: itemFloat 2.5s ease-in-out infinite;
         user-select: none;
     }
-
     .good-container {
         background: linear-gradient(45deg,#27ae60,#2ecc71);
         border: 4px solid #1e8449;
@@ -93,7 +86,6 @@
         box-shadow: 0 10px 30px rgba(0,0,0,.4);
         z-index: 1000;
     }
-
     .instructions, .game-over { border: 3px solid #3498db; }
     .game-over { display: none; border-color: #e74c3c; }
 
@@ -117,8 +109,7 @@
 
     .word-input-modal {
         z-index: 2000; display: none; text-align: center;
-        width: min(600px, 90vw);
-        border: 3px solid #27ae60;
+        width: min(600px, 90vw); border: 3px solid #27ae60;
     }
     .word-input-modal h3 { margin-bottom: 14px; color: #2c3e50; font-size: 20px; }
     .word-input-modal input {
@@ -137,17 +128,13 @@
     .good-suggestions .suggestion-tag:hover { background: #27ae60; }
     .bad-suggestions .suggestion-tag:hover { background: #e74c3c; }
     .word-input-modal .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .word-input-modal button {
-        padding: 12px 22px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: transform .2s ease;
-    }
+    .word-input-modal button { padding: 12px 22px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; }
     .confirm-btn { background: #27ae60; color: #fff; }
-    .confirm-btn:hover { transform: scale(1.04); }
     .skip-btn { background: #95a5a6; color: #fff; }
-    .skip-btn:hover { transform: scale(1.04); }
 
     .word-item {
         position: absolute; background: rgba(255,255,255,.95);
-        border: 3px solid; border-radius: 22px; padding: 10px 16px; font-size: 14px; font-weight: bold;
+        border: 3px solid; border-radius: 22px; padding: 10px 16px; font-weight: bold;
         max-width: 220px; text-align: center; word-wrap: break-word;
         animation: wordFloat 3.5s ease-in-out infinite; z-index: 5;
         box-shadow: 0 4px 15px rgba(0,0,0,.2);
@@ -157,15 +144,14 @@
     .negative-word { border-color: #e74c3c; color: #c0392b; box-shadow: 0 4px 15px rgba(231,76,60,.4); }
     @keyframes wordFloat { 0%,100%{ transform: translateY(0) rotate(0) } 33%{ transform: translateY(-10px) rotate(1deg) } 66%{ transform: translateY(-5px) rotate(-1deg) } }
 
-    /* controles móveis (setas + ação) */
     .mobile-controls {
         position: fixed; bottom: env(safe-area-inset-bottom, 12px); left: 50%; transform: translateX(-50%);
         z-index: 200; display: none; gap: 8px; padding: 6px;
         background: var(--hud-bg); border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,.25);
     }
     .pad-grid {
-        display: grid; grid-template-columns: 60px 60px 60px;
-        grid-template-rows: 60px 60px 60px; gap: 6px; align-items: center; justify-items: center;
+        display: grid; grid-template-columns: 60px 60px 60px; grid-template-rows: 60px 60px 60px;
+        gap: 6px; align-items: center; justify-items: center;
     }
     .pad-btn {
         width: 60px; height: 60px; border-radius: 14px; border: 2px solid #3498db; background: #ecf0f1;
@@ -173,7 +159,6 @@
     }
     .pad-btn:active { transform: scale(.97); }
 
-    /* mostra os controles em telas pequenas ou com pointer “coarse” */
     @media (max-width: 900px), (pointer: coarse) {
         .mobile-controls { display: block; }
         .controls { display: none; }
@@ -187,17 +172,20 @@
 <body>
 <div class="game-container" id="gameArea" aria-label="Área do jogo">
     <div class="hud" aria-live="polite">
-        <div class="score">Pontos: <span id="score">0</span></div>
-        <div class="lives">Vidas: <span id="lives">3</span></div>
-        <div class="progress">Progresso: <span id="progress">0</span>/2 para nova palavra</div>
+        <div class="row">
+            <div class="score">pontos: <span id="score">0</span></div>
+            <div class="lives">vidas: <span id="lives">3</span></div>
+            <div class="progress">progresso: <span id="progress">0</span>/2</div>
+            <div class="speed">velocidade: <span id="speedMul">1.0×</span> (+/−)</div>
+        </div>
     </div>
 
     <div class="instructions" id="instructions" role="dialog" aria-modal="true">
-        <h2>🦉 Coruja Digital — Boas práticas com IA</h2>
+        <h2>🦉 coruja digital — boas práticas com ia</h2>
         <p><strong>missão:</strong> colete boas práticas (círculos verdes) e evite práticas ruins (círculos vermelhos).</p>
-        <p><strong>controles:</strong> teclas ↑ ↓ ← → ou WASD. no celular, use o pad de setas. para remover uma palavra na tela, chegue perto e pressione espaço 3 vezes.</p>
-        <p><strong>a cada 2 acertos:</strong> você poderá digitar uma palavra. se for uma palavra sua (não listada nas sugestões), você ganha 1 vida extra.</p>
-        <p>boa prática = +15 pontos | ruim = −1 vida | palavra sugerida = +25 | palavra nova = +50 e +1 vida</p>
+        <p><strong>controles:</strong> teclas ↑ ↓ ← → ou wasd. no celular, use o pad. “+” e “−” mudam a velocidade. para remover uma palavra, chegue perto e pressione espaço 3 vezes.</p>
+        <p><strong>a cada 2 acertos:</strong> você poderá digitar uma palavra. se for uma palavra sua, você ganha 1 vida extra.</p>
+        <p>boa prática = +15 | ruim = −1 vida | palavra sugerida = +25 | palavra nova = +50 e +1 vida</p>
         <button class="start-btn" onclick="startGame()">começar</button>
     </div>
 
@@ -210,9 +198,8 @@
 
     <div class="owl" id="owl" aria-label="Coruja">🦉</div>
 
-    <div class="controls">use ↑ ↓ ← → ou WASD para mover | espaço 3× perto de uma palavra para removê-la</div>
+    <div class="controls">use ↑ ↓ ← → ou wasd | espaço 3× perto de uma palavra | “+”/“−” ajusta velocidade</div>
 
-    <!-- pad móvel -->
     <div class="mobile-controls" id="mobileControls" aria-label="Controles móveis">
         <div class="pad-grid">
             <button class="pad-btn" id="btnUp" aria-label="Cima">⬆️</button>
@@ -230,7 +217,7 @@
     </div>
 
     <div class="word-input-modal" id="wordInputModal" role="dialog" aria-modal="true" aria-labelledby="wordPrompt">
-        <h3 id="wordPrompt">Digite uma boa prática no uso da IA</h3>
+        <h3 id="wordPrompt">digite uma boa prática no uso da ia</h3>
 
         <div class="suggestions">
             <div class="good-suggestions">
@@ -253,7 +240,7 @@
 
 <script>
 (() => {
-    const WORDS_PER_PROMPT = 2; // novo: palavra a cada 2 acertos
+    const WORDS_PER_PROMPT = 2; // palavra a cada 2 acertos
 
     class AIOwlGame {
         constructor() {
@@ -262,9 +249,18 @@
             this.scoreElement = document.getElementById('score');
             this.livesElement = document.getElementById('lives');
             this.progressElement = document.getElementById('progress');
+            this.speedMulElement = document.getElementById('speedMul');
 
             this.size = { w: window.innerWidth, h: this.gameContainer.clientHeight };
             this.owlPosition = { x: this.size.w / 2 - 30, y: this.size.h / 2 - 30 };
+            this.vel = { x: 0, y: 0 };
+
+            this.baseACC = 700;  // px/s²
+            this.baseMAX = 200;  // px/s
+            this.speedMul = 1.0; // multiplicador ajustável
+            this.minMul = 0.4;
+            this.maxMul = 2.0;
+            this.mulStep = 0.1;
 
             this.score = 0;
             this.lives = 3;
@@ -277,10 +273,13 @@
             this.spaceCount = 0;
             this.targetWord = null;
             this.spaceTimeout = null;
-            this.userWords = [];
 
-            this.difficulty = 0; // 0 fácil → sobe conforme desempenho
-            this.recentHits = []; // últimos 10 resultados de colisões com itens (true=good)
+            this.userWords = [];
+            this.activeWordSet = new Set();
+            this.wordSpawnCounts = Object.create(null);
+
+            this.difficulty = 0;
+            this.recentHits = [];
             this.lastFrameTime = performance.now();
 
             this.goodPractices = [
@@ -325,6 +324,7 @@
             this.setupSuggestions();
             this.setupEventListeners();
             this.setupMobilePad();
+            this.updateSpeedHUD();
         }
 
         setupSuggestions() {
@@ -350,7 +350,6 @@
         setupEventListeners() {
             window.addEventListener('resize', () => {
                 this.size = { w: window.innerWidth, h: this.gameContainer.clientHeight };
-                // mantém a coruja no quadro
                 this.owlPosition.x = Math.max(0, Math.min(this.size.w - 60, this.owlPosition.x));
                 this.owlPosition.y = Math.max(0, Math.min(this.size.h - 60, this.owlPosition.y));
                 this.updateOwlPosition();
@@ -361,6 +360,13 @@
             });
 
             document.addEventListener('keydown', (e) => {
+                if (['+','=','-','_'].includes(e.key)) {
+                    e.preventDefault();
+                    if (e.key === '+' || e.key === '=') this.bumpSpeed(1);
+                    else this.bumpSpeed(-1);
+                    return;
+                }
+
                 if (this.waitingForWord) return;
 
                 const k = e.key;
@@ -375,7 +381,6 @@
                 if (key === 'arrowleft') key = 'left';
                 if (key === 'arrowright') key = 'right';
                 if (['arrowup','arrowdown','arrowleft','arrowright'].includes(k)) e.preventDefault();
-
                 this.keys[key] = true;
             });
 
@@ -389,10 +394,8 @@
                 this.keys[key] = false;
             });
 
-            // arrastar a coruja com o dedo (opcional e intuitivo)
             let dragging = false;
             this.gameContainer.addEventListener('pointerdown', (e) => {
-                // evita clicar em botões do HUD/pads
                 const target = e.target;
                 if (target.closest('#mobileControls') || target.closest('.hud') || target.closest('.word-input-modal') || target.closest('.instructions') || target.closest('.game-over')) return;
                 dragging = true;
@@ -447,9 +450,19 @@
             this.owlPosition.x = Math.max(0, Math.min(this.size.w - 60, x));
             this.owlPosition.y = Math.max(0, Math.min(this.size.h - 60, y));
             this.updateOwlPosition();
+            this.vel.x = 0; this.vel.y = 0;
         }
 
         resetKeys() { this.keys = {}; }
+
+        bumpSpeed(dir) {
+            this.speedMul = Math.max(this.minMul, Math.min(this.maxMul, +(this.speedMul + dir * this.mulStep).toFixed(2)));
+            this.updateSpeedHUD();
+        }
+
+        updateSpeedHUD() {
+            this.speedMulElement.textContent = this.speedMul.toFixed(1) + '×';
+        }
 
         start() {
             this.gameRunning = true;
@@ -458,7 +471,10 @@
             this.items = [];
             this.words = [];
             this.userWords = [];
+            this.activeWordSet.clear();
+            this.wordSpawnCounts = Object.create(null);
             this.owlPosition = { x: this.size.w / 2 - 30, y: this.size.h / 2 - 30 };
+            this.vel = { x: 0, y: 0 };
             this.waitingForWord = false;
             this.correctCount = 0;
             this.spaceCount = 0;
@@ -480,7 +496,7 @@
             if (!this.gameRunning) return;
 
             const now = performance.now();
-            const dt = Math.min(32, now - this.lastFrameTime); // ms
+            const dt = Math.min(32, now - this.lastFrameTime);
             this.lastFrameTime = now;
 
             if (!this.waitingForWord) {
@@ -492,23 +508,73 @@
             requestAnimationFrame(() => this.gameLoop());
         }
 
-        handleMovement(dt) {
-            const base = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) ? 0.22 : 0.28;
-            const speed = base * dt * 60; // normalizado
+        // movimento com aceleração, atrito e correção anti-grude nas bordas
+        handleMovement(dt){
+            const t = dt / 1000;
+            const isCoarse = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
 
-            let nx = this.owlPosition.x;
-            let ny = this.owlPosition.y;
+            const ACC       = (isCoarse ? 600 : this.baseACC) * this.speedMul;
+            const MAX_SPEED = (isCoarse ? 160 : this.baseMAX) * this.speedMul;
+            const DAMPING   = 8.0;
 
-            if (this.keys['left'] || this.keys['a']) nx -= speed;
-            if (this.keys['right'] || this.keys['d']) nx += speed;
-            if (this.keys['up'] || this.keys['w']) ny -= speed;
-            if (this.keys['down'] || this.keys['s']) ny += speed;
+            const pressingLeft  = this.keys['left']  || this.keys['a'];
+            const pressingRight = this.keys['right'] || this.keys['d'];
+            const pressingUp    = this.keys['up']    || this.keys['w'];
+            const pressingDown  = this.keys['down']  || this.keys['s'];
 
-            nx = Math.max(0, Math.min(this.size.w - 60, nx));
-            ny = Math.max(0, Math.min(this.size.h - 60, ny));
+            let ax = 0, ay = 0;
+            if (pressingLeft)  ax -= ACC;
+            if (pressingRight) ax += ACC;
+            if (pressingUp)    ay -= ACC;
+            if (pressingDown)  ay += ACC;
 
-            this.owlPosition.x = nx;
-            this.owlPosition.y = ny;
+            this.vel.x += ax * t;
+            this.vel.y += ay * t;
+
+            const damp = Math.exp(-DAMPING * t);
+            if (!pressingLeft && !pressingRight) this.vel.x *= damp;
+            if (!pressingUp   && !pressingDown)  this.vel.y *= damp;
+
+            const spd = Math.hypot(this.vel.x, this.vel.y);
+            if (spd > MAX_SPEED){
+                const k = MAX_SPEED / spd;
+                this.vel.x *= k; this.vel.y *= k;
+            }
+
+            let nx = this.owlPosition.x + this.vel.x * t;
+            let ny = this.owlPosition.y + this.vel.y * t;
+
+            const maxX = this.size.w - 60;
+            const maxY = this.size.h - 60;
+
+            // anti-grude: leve afastamento da parede mesmo sem input horizontal/vertical
+            const EPS = 0.2;     // deslocamento mínimo para não ficar cravado no limite
+            const RELEASE = 1.0; // empurrão quando a tecla oposta está pressionada
+
+            // eixo X
+            if (nx < 0) {
+                nx = 0;
+                if (this.vel.x < 0) this.vel.x = 0; // corta empurrão contra parede
+                nx += (pressingRight ? RELEASE : EPS);
+            } else if (nx > maxX) {
+                nx = maxX;
+                if (this.vel.x > 0) this.vel.x = 0;
+                nx -= (pressingLeft ? RELEASE : EPS);
+            }
+
+            // eixo Y
+            if (ny < 0) {
+                ny = 0;
+                if (this.vel.y < 0) this.vel.y = 0;
+                ny += (pressingDown ? RELEASE : EPS);
+            } else if (ny > maxY) {
+                ny = maxY;
+                if (this.vel.y > 0) this.vel.y = 0;
+                ny -= (pressingUp ? RELEASE : EPS);
+            }
+
+            this.owlPosition.x = Math.max(0, Math.min(maxX, nx));
+            this.owlPosition.y = Math.max(0, Math.min(maxY, ny));
             this.updateOwlPosition();
         }
 
@@ -516,10 +582,9 @@
             this.owl.style.transform = `translate3d(${this.owlPosition.x}px, ${this.owlPosition.y}px, 0)`;
         }
 
-        // distribuição inicial mais fácil; reduz “goodChance” com bom desempenho
         getGoodChance() {
-            const base = 0.80; // início: 80% verdes
-            const reduction = this.difficulty * 0.12; // até ~44% verdes no nível 3
+            const base = 0.80;
+            const reduction = this.difficulty * 0.12;
             return Math.max(0.38, base - reduction);
         }
         getItemLifetime() {
@@ -533,7 +598,6 @@
             return Math.random() * (max - min) + min;
         }
         getSpeed(isGood) {
-            // ligeiro aumento com a dificuldade
             const bump = this.difficulty * 0.4;
             return isGood ? (Math.random() * 2 + 1 + bump) : (Math.random() * 1.2 + 0.5 + bump * 0.6);
         }
@@ -567,7 +631,7 @@
 
             container.dataset.type = isGood ? 'good' : 'bad';
             container.dataset.speed = String(this.getSpeed(isGood));
-            container.dataset.direction = String(Math.random() * Math.PI * 2); // radianos corrigido
+            container.dataset.direction = String(Math.random() * Math.PI * 2);
 
             this.gameContainer.appendChild(container);
             this.items.push(container);
@@ -599,7 +663,7 @@
 
                 item.dataset.direction = String(dir);
                 item.style.left = Math.max(0, Math.min(this.size.w - 70, nx)) + 'px';
-                item.style.top = Math.max(0, Math.min(this.size.h - 70, ny)) + 'px';
+                item.style.top  = Math.max(0, Math.min(this.size.h - 70, ny)) + 'px';
             });
         }
 
@@ -622,21 +686,19 @@
 
                 word.dataset.direction = String(dir);
                 word.style.left = Math.max(0, Math.min(this.size.w - 220, nx)) + 'px';
-                word.style.top = Math.max(0, Math.min(this.size.h - 60, ny)) + 'px';
+                word.style.top  = Math.max(0, Math.min(this.size.h - 60, ny)) + 'px';
             });
         }
 
         checkCollisions() {
             const owlRect = this.owl.getBoundingClientRect();
 
-            // itens
             this.items.slice().forEach(item => {
                 if (!item.parentNode) return;
                 const rect = item.getBoundingClientRect();
                 if (this.isColliding(owlRect, rect)) this.handleItemCollision(item);
             });
 
-            // palavras
             this.words.slice().forEach(word => {
                 if (!word.parentNode) return;
                 const rect = word.getBoundingClientRect();
@@ -657,7 +719,6 @@
                 item.style.transform = 'scale(1.5)';
                 item.style.opacity = '0';
 
-                // registra desempenho
                 this.recentHits.push(true);
                 if (this.recentHits.length > 10) this.recentHits.shift();
 
@@ -669,10 +730,8 @@
                 this.recentHits.push(false);
                 if (this.recentHits.length > 10) this.recentHits.shift();
 
-                this.owl.style.transform = `translate3d(${this.owlPosition.x}px, ${this.owlPosition.y}px, 0) scale(1.2)`;
                 this.owl.style.filter = 'hue-rotate(180deg)';
                 setTimeout(() => {
-                    this.owl.style.transform = `translate3d(${this.owlPosition.x}px, ${this.owlPosition.y}px, 0)`;
                     this.owl.style.filter = 'drop-shadow(3px 3px 6px rgba(0,0,0,.4))';
                 }, 250);
             }
@@ -688,6 +747,10 @@
         handleWordCollision(word) {
             const isPositive = word.dataset.type === 'positive';
             this.score = Math.max(0, this.score + (isPositive ? 8 : -8));
+
+            const text = word.dataset.text;
+            this.activeWordSet.delete(text);
+
             word.style.transform = 'scale(1.4)';
             word.style.opacity = '0';
             word.remove();
@@ -707,6 +770,9 @@
                 nearby.style.opacity = `${1 - this.spaceCount * .25}`;
 
                 if (this.spaceCount >= 3) {
+                    const text = nearby.dataset.text;
+                    this.activeWordSet.delete(text);
+
                     nearby.remove();
                     this.words = this.words.filter(w => w !== nearby);
                     this.resetSpaceCounter();
@@ -762,9 +828,22 @@
         }
 
         addWordToScreen(word, isPositive) {
+            const key = word.trim().toLowerCase();
+            if (!key) return;
+            if (this.activeWordSet.has(key)) return;
+
+            const prev = this.wordSpawnCounts[key] || 0;
+            const newCount = prev + 1;
+            this.wordSpawnCounts[key] = newCount;
+
+            const baseSize = 14;
+            const sizeBump = Math.min(6, newCount);
+            const fontSize = baseSize + sizeBump;
+
             const el = document.createElement('div');
             el.className = `word-item ${isPositive ? 'positive-word' : 'negative-word'}`;
             el.textContent = word;
+            el.style.fontSize = fontSize + 'px';
 
             const x = Math.random() * (this.size.w - 220);
             const y = Math.random() * (this.size.h - 60);
@@ -774,9 +853,11 @@
             el.dataset.type = isPositive ? 'positive' : 'negative';
             el.dataset.speed = String(Math.random() * 1.5 + 0.8 + this.difficulty * 0.3);
             el.dataset.direction = String(Math.random() * Math.PI * 2);
+            el.dataset.text = key;
 
             this.gameContainer.appendChild(el);
             this.words.push(el);
+            this.activeWordSet.add(key);
         }
 
         spawnUserWords() {
@@ -823,13 +904,12 @@
             document.getElementById('gameOver').style.display = 'block';
 
             document.querySelectorAll('.item-container, .word-item').forEach(n => n.remove());
+            this.activeWordSet.clear();
         }
     }
 
-    // instância global
     window.game = new AIOwlGame();
 
-    // api de botões globais
     window.startGame = function() {
         document.getElementById('instructions').style.display = 'none';
         game.start();
@@ -840,9 +920,9 @@
     };
     window.confirmWord = function() {
         const input = document.getElementById('wordInput');
-        const text = input.value.trim();
+        const textRaw = input.value;
+        const text = textRaw.trim();
         if (text) {
-            // positiva se NÃO casa com “ruins”
             const isPositive = !game.badSuggestions.some(bad =>
                 text.toLowerCase().includes(bad.toLowerCase()) || bad.toLowerCase().includes(text.toLowerCase())
             );
@@ -850,7 +930,7 @@
             const points = isNew ? 50 : 25;
 
             game.score += points;
-            if (isNew) { game.lives += 1; } // vida extra por palavra própria
+            if (isNew) { game.lives += 1; }
             game.updateHUD();
 
             game.userWords.push({ text, isPositive, isNew });
