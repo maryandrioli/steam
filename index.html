@@ -3,24 +3,22 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>STEAM & IA </title>
+<title>STEAM & IA</title>
 <meta content="Oficina para professores e gestores experienciarem o uso crítico, criativo e investigativo da IA em contextos STEAM." name="description"/>
 <style>
     :root {
       --bg-primary: #FFFFFF;
       --bg-secondary: #F9F9F9;
       --text-primary: #333333;
-      --text-secondary: #666666;
+      --text-secondary: #555555;
       --blue-dark: #002D57;
       --purple-accent: #6F2E91;
       --blue-light: #1C75BC;
       --border-light: #E0E0E0;
       --shadow-light: rgba(0, 0, 0, 0.1);
-      --success-color: #28A745;
-      --warning-color: #FFC107;
-      --info-color: #17A2B8;
+      --success-color: #1E7E34;
       --radius: 12px;
-      --transition: all 0.3s ease-in-out;
+      --transition: all 0.2s ease-in-out;
     }
 
     * { box-sizing: border-box; }
@@ -34,15 +32,17 @@
       margin: 0; padding: 0;
     }
 
+    /* link para pular conteúdo */
     .skip-link {
       position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
     }
     .skip-link:focus {
       position: static; width: auto; height: auto; padding: 0.5rem;
-      background: var(--blue-dark); color: white; z-index: 9999;
+      background: var(--blue-dark); color: #fff; z-index: 9999;
+      border-radius: 8px;
     }
 
-    header {
+    header[role="banner"] {
       background: var(--bg-primary);
       border-bottom: 2px solid var(--border-light);
       box-shadow: 0 2px 8px var(--shadow-light);
@@ -57,7 +57,7 @@
       width: 50px; height: 50px; border-radius: 50%;
       background: linear-gradient(135deg, var(--blue-dark), var(--purple-accent));
       box-shadow: 0 4px 6px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;
+      display: inline-flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;
     }
     .brand h1 { font-size: 2rem; font-weight: bold; color: var(--blue-dark); margin: 0; }
 
@@ -68,19 +68,20 @@
       transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: .5rem;
     }
     .btn:hover { background: white; border-color: var(--blue-light); box-shadow: 0 2px 4px var(--shadow-light); }
+    .btn:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 2px; }
     .btn.primary { background: var(--blue-dark); color: white; border-color: var(--blue-dark); }
     .btn.primary:hover { background: var(--purple-accent); border-color: var(--purple-accent); }
 
-    .nav-links {
+    nav[aria-label] {
       max-width: 1200px; margin: 0 auto; padding: 0 1rem 1rem;
       display: flex; gap: 1rem; flex-wrap: wrap;
     }
-    .nav-links a {
+    nav[aria-label] a {
       background: var(--bg-secondary); color: var(--blue-dark);
-      padding: .75rem 1.5rem; border-radius: var(--radius); text-decoration: none; font-weight: 500;
+      padding: .75rem 1.5rem; border-radius: var(--radius); text-decoration: none; font-weight: 600;
       transition: var(--transition); border: 1px solid var(--border-light);
     }
-    .nav-links a:hover { background: var(--blue-light); color: white; box-shadow: 0 4px 6px var(--shadow-light); }
+    nav[aria-label] a:hover, nav[aria-label] a:focus-visible { background: var(--blue-light); color: white; box-shadow: 0 4px 6px var(--shadow-light); outline: none; }
 
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
 
@@ -124,34 +125,30 @@
     .tag.primary { background: var(--blue-light); color: white; border-color: var(--blue-light); }
 
     .post-it { background: #FFF9C4; border: 1px solid #F7DC6F; border-radius: var(--radius); padding: 1rem; margin: 1rem 0; box-shadow: 2px 2px 4px var(--shadow-light); transform: rotate(-1deg); }
-    .post-it h4 { color: #8B7355; margin-top: 0; }
+    .post-it h4 { color: #5C4B33; margin-top: 0; }
 
     .etapa { background: var(--bg-secondary); border-radius: var(--radius); padding: 1.5rem; margin: 1rem 0; border-left: 4px solid var(--success-color); }
     .etapa h4 { color: var(--success-color); margin-top: 0; }
 
     .ods-card { border-left: 4px solid var(--blue-dark); }
-    .ods-card summary { cursor: pointer; font-weight: 600; color: var(--blue-dark); padding: .5rem 0; }
-    .ods-card summary:hover { color: var(--purple-accent); }
+    .ods-card summary { cursor: pointer; font-weight: 700; color: var(--blue-dark); padding: .5rem 0; }
+    .ods-card summary:hover, .ods-card summary:focus-visible { color: var(--purple-accent); outline: none; }
     .ods-card[open] { background: var(--bg-secondary); }
 
-    /* Timer states */
-    .timer.green { background:#EAF9EA; border-color:#28A745 !important; }
-    .timer.yellow { background:#FFF8E1; border-color:#FFC107 !important; }
-    .timer.red { background:#FDECEA; border-color:#DC3545 !important; }
-
-    .text-center { text-align: center; }
     .text-muted { color: var(--text-secondary); }
-    .mb-2 { margin-bottom: 2rem; }
-    .mt-2 { margin-top: 2rem; }
 
     @media (max-width: 768px) {
       .header-content { flex-direction: column; text-align: center; }
       .brand h1 { font-size: 1.5rem; }
-      .nav-links { justify-content: center; }
+      nav[aria-label] { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; scroll-behavior: auto !important; }
     }
 
     @media print {
-      header .accessibility-controls, .nav-links, .post-it { display: none !important; }
+      header .accessibility-controls, nav[aria-label], .post-it { display: none !important; }
       body { background: white; }
       .card { box-shadow: none; border: 1px solid #ccc; }
     }
@@ -160,28 +157,28 @@
 <body>
 <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
-<header>
+<header role="banner">
   <div class="header-content">
-    <div class="brand">
-      <div class="logo">IA</div>
-      <div><h1>STEAM & IA </h1></div>
+    <div class="brand" aria-label="Identidade visual da oficina">
+      <div class="logo" aria-hidden="true">IA</div>
+      <div><h1>STEAM & IA</h1></div>
     </div>
-    <div class="accessibility-controls">
-      <button aria-label="Diminuir tamanho da fonte" class="btn" id="btn-font--" title="Diminuir fonte">A−</button>
-      <button aria-label="Aumentar tamanho da fonte" class="btn" id="btn-font++" title="Aumentar fonte">A+</button>
-      <button aria-label="Ativar alto contraste" aria-pressed="false" class="btn" id="btn-contraste" title="Alto contraste">Alto contraste</button>
-      <button aria-label="Imprimir página" class="btn" onclick="window.print()" title="Imprimir">Imprimir</button>
+    <div class="accessibility-controls" role="group" aria-label="Controles de acessibilidade">
+      <button type="button" aria-label="Diminuir tamanho da fonte" class="btn" id="btn-font--" title="Diminuir fonte">A−</button>
+      <button type="button" aria-label="Aumentar tamanho da fonte" class="btn" id="btn-font++" title="Aumentar fonte">A+</button>
+      <button type="button" aria-label="Ativar alto contraste" aria-pressed="false" class="btn" id="btn-contraste" title="Alto contraste">Alto contraste</button>
+      <button type="button" aria-label="Imprimir página" class="btn" onclick="window.print()" title="Imprimir">Imprimir</button>
     </div>
   </div>
-  <div class="nav-links">
+  <nav class="nav-links" aria-label="Navegação principal">
     <a href="apoio.html">🤖 IAs de Apoio</a>
-    <a href="dicas.html">💡 Dicas & Materiais</a>
+    <a href="dicas.html">💡 Dicas &amp; Materiais</a>
     <a href="prompts.html">🤖 Prompts</a>
-  </div>
+  </nav>
 </header>
 
-<main class="container" id="conteudo" tabindex="-1">
-  <div class="intro-text">
+<main class="container" id="conteudo" tabindex="-1" role="main" aria-label="Conteúdo principal">
+  <div class="intro-text" role="doc-subtitle">
     Você vai vivenciar, como estudante e como educador(a), o uso <strong>crítico, criativo e investigativo</strong> da Inteligência Artificial em desafios relacionados aos Objetivos de Desenvolvimento Sustentável (<a href="#ods">ODS</a>). A cada etapa, vamos diferenciar <em>autoria humana</em> e <em>contribuições da IA</em>, validar referências e registrar de forma transparente.
   </div>
 
@@ -194,104 +191,72 @@
       <li>Desenvolver <strong>soluções criativas</strong> que combinem pesquisa tradicional e recursos de IA.</li>
       <li>Planejar <strong>atividades replicáveis</strong> na sua instituição, com opções <em>online</em> e <em>desplugadas</em>.</li>
     </ul>
-    <div class="tags">
-      <span class="tag primary">Mão na massa</span>
-      <span class="tag primary">Investigativa</span>
-      <span class="tag primary">Interdisciplinar</span>
-      <span class="tag primary">Ética & Autoria</span>
+    <div class="tags" role="list" aria-label="Etiquetas">
+      <span class="tag primary" role="listitem">Mão na massa</span>
+      <span class="tag primary" role="listitem">Investigativa</span>
+      <span class="tag primary" role="listitem">Interdisciplinar</span>
+      <span class="tag primary" role="listitem">Ética &amp; Autoria</span>
     </div>
   </details>
 
-  <!-- AGENDA + TIMER lado a lado -->
-  <div class="grid cols-2">
-    <div class="card info" id="agenda">
-      <h3>⏰ Agenda (2h)</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <strong>14h—14h15</strong> • Abertura — <em><a href="https://www.canva.com/design/DAGxrnZnb6A/xIaUY97uE_Hud_vpIfj6mg/edit?utm_content=DAGxrnZnb6A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Uso pedagógico, critico e criativo da IA</a></em> (Mary Grace).
-        </div>
-        <div class="timeline-item">
-          <strong>14h15—14h30</strong> • Formação de equipes, exploração das possibilidades  e seleção dos <a href="#ods">ODS</a>.
-        </div>
-        <div class="timeline-item">
-          <strong>14h30—15h25</strong> • Desenvolvimento do projeto por equipe: investigação + prototipagem.
-        </div>
-        <div class="timeline-item">
-          <strong>15h25—15h50</strong> • Apresentações rápidas (5 min por equipe) com <a href="https://claude.ai/public/artifacts/981b4e44-cee9-4649-b91e-ba280639f134">timer acessível</a>.
-        </div>
-        <div class="timeline-item">
-          <strong>15h50 - 16h</strong> • Considerações finais, próximos passos e foto da turma
-        </div>
-        <div class="timeline-item">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLScEa6nrR-eLz_DShVMjIIkR6TXth2RR4mdMZrNPDgY2BUqQTw/viewform?usp=header">Avaliação e compartihamento de aprendizagens</a>.
-        </div>
+  <!-- AGENDA sem timer -->
+  <section class="card info" id="agenda" aria-labelledby="agenda-title">
+    <h3 id="agenda-title">⏰ Agenda (2h)</h3>
+    <div class="timeline" aria-label="Linha do tempo da oficina">
+      <div class="timeline-item">
+        <strong>14h—14h15</strong> • Abertura — <em><a href="https://www.canva.com/design/DAGxrnZnb6A/xIaUY97uE_Hud_vpIfj6mg/edit?utm_content=DAGxrnZnb6A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Uso pedagógico, crítico e criativo da IA</a></em> (Mary Grace).
+      </div>
+      <div class="timeline-item">
+        <strong>14h15—14h30</strong> • Formação de equipes, exploração das possibilidades e seleção dos <a href="#ods">ODS</a>.
+      </div>
+      <div class="timeline-item">
+        <strong>14h30—15h25</strong> • Desenvolvimento do projeto por equipe: investigação + prototipagem.
+      </div>
+      <div class="timeline-item">
+        <strong>15h25—15h50</strong> • Apresentações rápidas (5 min por equipe) com <a href="https://claude.ai/public/artifacts/981b4e44-cee9-4649-b91e-ba280639f134" aria-label="Abrir timer acessível em nova página do Claude">timer acessível</a>.
+      </div>
+      <div class="timeline-item">
+        <strong>15h50 - 16h</strong> • Considerações finais, próximos passos e foto da turma
+      </div>
+      <div class="timeline-item">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScEa6nrR-eLz_DShVMjIIkR6TXth2RR4mdMZrNPDgY2BUqQTw/viewform?usp=header" aria-label="Abrir formulário de avaliação e compartilhamento de aprendizagens">Avaliação e compartihamento de aprendizagens</a>.
       </div>
     </div>
+  </section>
 
-    <div class="card" id="timer-card">
-      <h3>⏳ Timer da Atividade</h3>
-      <form id="timer-form" class="timer green" aria-live="polite" style="padding:1rem; border-radius:12px; border:1px solid #E0E0E0;">
-        <div style="display:grid; grid-template-columns: 1fr 120px; gap: .5rem; align-items:end; margin-bottom: .75rem;">
-          <label>Etapa/Atividade<br/>
-            <input type="text" id="stage-name" placeholder="Ex.: Apresentações" aria-label="Etapa ou atividade" style="width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px;"/>
-          </label>
-          <label>Minutos<br/>
-            <input type="number" id="minutes-input" min="1" step="1" value="5" aria-label="Duração em minutos" style="width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px;"/>
-          </label>
-        </div>
-
-        <div style="display:flex; gap:.5rem; margin-bottom:.75rem;">
-          <button type="button" id="start-btn" class="btn primary">Iniciar</button>
-          <button type="button" id="pause-btn" class="btn">Pausar</button>
-          <button type="button" id="reset-btn" class="btn">Zerar</button>
-        </div>
-
-        <div style="display:flex; flex-wrap: wrap; gap: 1rem; align-items:center; margin:.75rem 0;">
-          <div><strong>Hora atual:</strong> <span id="current-time">--:--:--</span></div>
-          <div><strong>Término previsto:</strong> <span id="end-time">--:--</span></div>
-        </div>
-
-        <div style="font-size: 2rem; font-weight: bold; margin-top:.5rem;" aria-live="assertive">
-          <span id="countdown">00:00</span>
-        </div>
-        <div class="text-muted" id="timer-status" style="margin-top:.5rem;">Pronto para iniciar.</div>
-      </form>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>🚀 Desafio por Equipe — Objetivos de Desenvolvimento Sustentável (<a href="#ods">ODS</a>)</h3>
+  <section class="card" aria-labelledby="desafio-ods-title">
+    <h3 id="desafio-ods-title">🚀 Desafio por Equipe — Objetivos de Desenvolvimento Sustentável (<a href="#ods">ODS</a>)</h3>
     <p>Formaremos <strong>6 equipes</strong>. Cada equipe deverá aprofundar conhecimentos sobre um dos temas do <a href="#ods">ODS</a> que foi selecionado para seu grupo e construir uma proposta de intervenção na forma de protótipo, esquema, artefato, vídeo, quadrinhos, jogo digital, app, jogo de tabuleiro físico ou interativo, página web, simulação e/ou outra possibilidade criativa no uso da IA.</p>
 
-    <div class="post-it">
-      <h4>💡 Critério de Qualidade</h4>
+    <div class="post-it" role="note" aria-labelledby="criterio-titulo">
+      <h4 id="criterio-titulo">💡 Critério de Qualidade</h4>
       <p>O resultado das produções deve revelar algo que combine ideias e criatividade, uso criativo, ético e investigativo da IA. <strong>Não pode ser algo que seria rapidamente construído sem IA e nem algo que pudesse ser feito com a mesma qualidade totalmente por meio da IA.</strong></p>
     </div>
 
     <p>Combine estratégias de pesquisa com e sem IA, bem como entrevistas, diálogo interno com a equipe e outras abordagens. Ao longo das reflexões, registre nos post-it ideias sobre melhor uso da IA e também cuidados necessários que você notou com seu grupo.</p>
-  </div>
+  </section>
 
   <h3>📋 Etapas comuns a todos os grupos</h3>
 
-  <div class="etapa">
-    <h4>1. Identificação do problema</h4>
+  <section class="etapa" aria-labelledby="etapa1">
+    <h4 id="etapa1">1. Identificação do problema</h4>
     <p>Procure identificar com seu grupo qual maior problema que vocês percebem na área do <a href="#ods">ODS</a> selecionado, a partir de sua experiência e/ou pesquise problemas sobre este tema na Internet.</p>
     <p><strong>Registre as ideias em post-its para facilitar o entendimento geral do grupo.</strong></p>
-  </div>
+  </section>
 
-  <div class="etapa">
-    <h4>2. Análise do estado atual</h4>
+  <section class="etapa" aria-labelledby="etapa2">
+    <h4 id="etapa2">2. Análise do estado atual</h4>
     <p>Após identificar o problema, identifiquem o que tem sido feito e o que poderia ser feito com apoio das Tecnologias Digitais de Informação e Comunicação.</p>
-  </div>
+  </section>
 
-  <div class="etapa">
-    <h4>3. Exploração e inspiração</h4>
+  <section class="etapa" aria-labelledby="etapa3">
+    <h4 id="etapa3">3. Exploração e inspiração</h4>
     <p>Explorem os recursos e materiais da oficina, busquem inspirações por meio da própria IA, relatando também o perfil do grupo: <em>"Somos estudantes de… as disciplinas que estamos cursando ou que gostaríamos de valorizar nesse momento são [preencher as áreas de conhecimento], temos interesse em construir algo para [liste ideias iniciais do que você pretende]."</em></p>
     <p><strong>Consulte a seção de <a href="prompts.html">Prompts</a> para dicas detalhadas.</strong></p>
-  </div>
+  </section>
 
-  <div class="etapa">
-    <h4>4. Desenvolvimento da solução</h4>
+  <section class="etapa" aria-labelledby="etapa4">
+    <h4 id="etapa4">4. Desenvolvimento da solução</h4>
     <p>Criem uma proposta de intervenção que combine:</p>
     <ul>
       <li>Uso crítico e criativo da IA</li>
@@ -300,10 +265,10 @@
       <li>Diálogo e reflexão em equipe</li>
       <li>Registro transparente de processos e fontes</li>
     </ul>
-  </div>
+  </section>
 
-  <div class="post-it">
-    <h4>📝 Registro de Reflexões</h4>
+  <div class="post-it" role="note" aria-labelledby="registro-reflexoes">
+    <h4 id="registro-reflexoes">📝 Registro de Reflexões</h4>
     <p>Durante todo o processo, utilizem post-its para registrar:</p>
     <ul>
       <li><strong>Boas práticas:</strong> ideias sobre melhor uso da IA</li>
@@ -312,19 +277,19 @@
     </ul>
   </div>
 
-  <div class="grid cols-2">
-    <div class="card">
-      <h3>📊 Registro e Documentação</h3>
+  <div class="grid cols-2" role="list" aria-label="Materiais de apoio">
+    <section class="card" role="listitem" aria-labelledby="registro-doc-title">
+      <h3 id="registro-doc-title">📊 Registro e Documentação</h3>
       <ul>
         <li>Cada equipe recebe materiais para <strong>registro visual</strong> (cartolinas, post-its, marcadores).</li>
         <li>Documente em cada etapa: <em>pergunta → busca → análise → síntese → prototipagem → validação</em>.</li>
         <li>Em cada fase, anote <strong>dicas de uso de IA</strong> e <strong>cuidados éticos</strong> observados.</li>
         <li>Mantenha registro transparente de todas as fontes utilizadas.</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="card">
-      <h3>✅ Boas Práticas de IA (uso responsável)</h3>
+    <section class="card" role="listitem" aria-labelledby="boas-praticas-title">
+      <h3 id="boas-praticas-title">✅ Boas Práticas de IA (uso responsável)</h3>
       <ul>
         <li>Marcar claramente o que foi gerado por IA (<em>autoria</em> e <em>origem</em> dos dados).</li>
         <li><strong>Checar e validar</strong> informações: comparar com fontes confiáveis e experimentos práticos.</li>
@@ -332,10 +297,10 @@
         <li>Evitar <strong>dependência excessiva</strong>: preservar síntese, crítica e autoria humana.</li>
         <li>Preferir fontes verificáveis; atenção a <em>referências falsas ou incompletas</em>.</li>
       </ul>
-    </div>
+    </section>
   </div>
 
-  <div class="card" id="ods">
+  <section class="card" id="ods" aria-labelledby="ods-lista-title">
     <h3 id="ods-lista-title">🌍 Lista dos 17 Objetivos de Desenvolvimento Sustentável</h3>
     <p class="text-muted">Cada equipe selecionará um dos <a href="#ods">ODS</a> abaixo para desenvolver sua proposta de intervenção. Clique para ver a descrição completa:</p>
 
@@ -425,26 +390,27 @@
         <p>Fortalecer os meios de implementação e revitalizar a parceria global para o desenvolvimento sustentável. Envolve fortalecer a parceria global para o desenvolvimento sustentável, complementada por parcerias multissetoriais que mobilizem e compartilhem conhecimento, expertise, tecnologia e recursos financeiros.</p>
       </details>
     </div>
-  </div>
+  </section>
 </main>
 
-<footer style="margin-top: 2rem; padding: 2rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-light); color: var(--text-secondary); text-align: center;">
+<footer role="contentinfo" style="margin-top: 2rem; padding: 2rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-light); color: var(--text-secondary); text-align: center;">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <br> <strong>STEAM & IA: Criatividade, Autoria e Responsabilidade</strong> — Ministrante: Mary Grace Andrioli (IFSP)<br>
-    <br>Programação da página construída com apoio de Chat GPT, Claude e Gemini • Contato <strong>maryg@ifsp.edu.br</strong><br>
-    <a href="https://encontrosteam.febrace.org.br/v2025/programacao/">  para o Encontro Nacional Steam 2005</a>
+    <br> <strong>STEAM &amp; IA: Criatividade, Autoria e Responsabilidade</strong> — Ministrante: Mary Grace Andrioli (IFSP)<br>
+    <br>Programação da página construída com apoio de ChatGPT, Claude e Gemini • Contato <strong>maryg@ifsp.edu.br</strong><br>
+    <a href="https://encontrosteam.febrace.org.br/v2025/programacao/" aria-label="Abrir programação do Encontro Nacional STEAM 2025">para o Encontro Nacional Steam 2005</a>
   </div>
 </footer>
 
 <script>
-// Acessibilidade: Alto contraste e tamanho da fonte
+/* Acessibilidade: alto contraste e tamanho da fonte */
 const btnHC = document.getElementById('btn-contraste');
 const btnFontMinus = document.getElementById('btn-font--');
 const btnFontPlus = document.getElementById('btn-font++');
 
 function applyPrefs(){
   const hc = localStorage.getItem('hc')==='1';
-  document.body.style.filter = hc ? 'invert(1) hue-rotate(180deg)' : '';
+  // Observação: o filtro inverte todo o conteúdo. Em contextos com muitas imagens, considere um tema de alto contraste dedicado.
+  document.documentElement.style.filter = hc ? 'invert(1) hue-rotate(180deg)' : '';
   if(btnHC) btnHC.setAttribute('aria-pressed', String(hc));
   const fs = localStorage.getItem('fs') || '16';
   document.documentElement.style.fontSize = fs + 'px';
@@ -462,136 +428,11 @@ if(btnHC) {
 function changeFont(delta){
   const cur = parseInt(localStorage.getItem('fs')||'16',10);
   const next = Math.max(12, Math.min(24, cur + delta));
-  localStorage.setItem('fs', next);
+  localStorage.setItem('fs', String(next));
   applyPrefs();
 }
 if(btnFontMinus) btnFontMinus.addEventListener('click', ()=>changeFont(-2));
 if(btnFontPlus) btnFontPlus.addEventListener('click', ()=>changeFont(+2));
-
-// Timer logic (ampulheta)
-(function(){
-  const form = document.getElementById('timer-form');
-  if(!form) return;
-
-  const minutesInput = document.getElementById('minutes-input');
-  const countdownEl = document.getElementById('countdown');
-  const statusEl = document.getElementById('timer-status');
-  const currentTimeEl = document.getElementById('current-time');
-  const endTimeEl = document.getElementById('end-time');
-  const startBtn = document.getElementById('start-btn');
-  const pauseBtn = document.getElementById('pause-btn');
-  const resetBtn = document.getElementById('reset-btn');
-  const stageNameEl = document.getElementById('stage-name');
-
-  let remaining = 0;    // em segundos
-  let endAt = null;     // Date
-  let interval = null;
-  let warnedOneMinute = false;
-  let running = false;
-
-  function fmt(n){ return String(n).padStart(2,'0'); }
-
-  function updateClock(){
-    const now = new Date();
-    currentTimeEl.textContent = now.toLocaleTimeString();
-    if(endAt){
-      endTimeEl.textContent = endAt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-    } else {
-      endTimeEl.textContent = '--:--';
-    }
-  }
-
-  function setState(state){
-    form.classList.remove('green','yellow','red');
-    form.classList.add(state);
-  }
-
-  function beep(times=1, dur=200, freq=880){
-    try{
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      let t = ctx.currentTime;
-      for(let i=0; i<times; i++){
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine'; osc.frequency.value = freq;
-        osc.connect(gain); gain.connect(ctx.destination);
-        gain.gain.setValueAtTime(0.0001, t);
-        gain.gain.exponentialRampToValueAtTime(0.2, t+0.01);
-        osc.start(t);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + dur/1000);
-        osc.stop(t + dur/1000);
-        t += (dur + 150)/1000;
-      }
-    }catch(e){ /* se bloqueado, apenas ignora */ }
-  }
-
-  function render(){
-    const mins = Math.floor(remaining/60);
-    const secs = remaining%60;
-    countdownEl.textContent = fmt(mins)+':'+fmt(secs);
-
-    if(remaining <= 0){
-      countdownEl.textContent = '00:00';
-      statusEl.textContent = 'Tempo esgotado para: ' + (stageNameEl.value || 'Etapa');
-      setState('red');
-      clearInterval(interval); interval=null; running=false;
-      beep(3, 220, 700);
-      return;
-    }
-
-    if(remaining <= 60 && !warnedOneMinute){
-      warnedOneMinute = true;
-      statusEl.textContent = 'Falta 1 minuto para finalizar: ' + (stageNameEl.value || 'Etapa');
-      setState('yellow');
-      beep(1, 200, 1000);
-    }
-  }
-
-  function tick(){
-    const now = new Date();
-    remaining = Math.max(0, Math.round((endAt - now)/1000));
-    render();
-    updateClock();
-  }
-
-  startBtn.addEventListener('click', () => {
-    const mins = Math.max(1, parseInt(minutesInput.value||'0',10));
-    // Se não estiver rodando, inicia do zero; se estiver pausado, retoma o que restou
-    if(!running || !endAt){
-      remaining = mins*60;
-    }
-    const now = new Date();
-    endAt = new Date(now.getTime() + remaining*1000);
-    warnedOneMinute = remaining <= 60;
-    running = true;
-    statusEl.textContent = 'Contando: ' + (stageNameEl.value || 'Etapa');
-    setState(remaining > 60 ? 'green' : 'yellow');
-    render();
-    updateClock();
-    clearInterval(interval);
-    interval = setInterval(tick, 250);
-  });
-
-  pauseBtn.addEventListener('click', () => {
-    if(!running) return;
-    running = false;
-    clearInterval(interval); interval=null;
-    statusEl.textContent = 'Pausado em ' + countdownEl.textContent;
-  });
-
-  resetBtn.addEventListener('click', () => {
-    running = false;
-    clearInterval(interval); interval=null;
-    remaining = 0; endAt = null; warnedOneMinute=false;
-    countdownEl.textContent = '00:00';
-    statusEl.textContent = 'Pronto para iniciar.';
-    setState('green'); updateClock();
-  });
-
-  setState('green');
-  updateClock();
-  setInterval(updateClock, 1000);
-})();
 </script>
 </body>
 </html>
